@@ -245,3 +245,55 @@
 .maplibregl-popup-content button:not(.maplibregl-popup-close-button):active {
   transform: scale(0.98);
 }
+
+
+/* =========================================
+   NOTIFICAÇÕES INTERATIVAS
+   ========================================= */
+
+.mission-toast {
+  touch-action: none;
+
+  user-select: none;
+  -webkit-user-select: none;
+
+  cursor: grab;
+  pointer-events: auto;
+
+  -webkit-tap-highlight-color: transparent;
+
+  translate:
+    var(--drag-x, 0px)
+    var(--drag-y, 0px);
+
+  transition:
+    translate 0.2s ease-out,
+    opacity 0.25s ease-out;
+}
+
+.mission-toast.is-dragging {
+  transition: none;
+  cursor: grabbing;
+}
+
+.mission-toast.is-dismissing {
+  animation: none;
+
+  transform: translateX(-50%);
+  opacity: 0;
+
+  transition:
+    translate 0.25s ease-out,
+    opacity 0.25s ease-out;
+
+  pointer-events: none;
+}
+
+.mission-toast-leaving {
+  pointer-events: none;
+}
+
+.mission-toast:focus-visible {
+  outline: 2px solid #446342;
+  outline-offset: 4px;
+}

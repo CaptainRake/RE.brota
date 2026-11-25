@@ -1,17 +1,21 @@
-import {
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-
-import {
-  useProgressStore,
-  MAIN_MISSIONS,
-  DAILY_MISSIONS,
-} from '../stores/progressStore';
-
+import { useEffect, useRef, useState,} from 'react';
+import { useProgressStore, MAIN_MISSIONS, DAILY_MISSIONS,} from '../stores/progressStore';
+import { useNavigate } from 'react-router-dom';
 
 export default function MissionNotifications() {
+
+  const navigate = useNavigate();
+
+  const gestureRef = useRef(null);
+
+  const [drag, setDrag] = useState({
+    x: 0,
+    y: 0,
+  });
+
+  const [dragging, setDragging] = useState(false);
+
+  const [dismissing, setDismissing] = useState(false);
 
   const currentMissionId =
     useProgressStore(
@@ -422,89 +426,223 @@ export default function MissionNotifications() {
     =========================================================
   */
 
-  useEffect(() => {
+    useEffect(() => {
 
-    if (visible) {
-      return;
-    }
-
-
-    if (
-      queue.length === 0
-    ) {
-      return;
-    }
+      if (visible) {
+        return;
+      }
 
 
-    const [
-      next,
-      ...remaining
-    ] =
-      queue;
+      if (
+        queue.length === 0
+      ) {
+        return;
+      }
 
 
-    setVisible(next);
-
-    setQueue(
-      remaining
-    );
-
-  }, [
-    queue,
-    visible,
-  ]);
+      const [
+        next,
+        ...remaining
+      ] =
+        queue;
 
 
-  /*
-    =========================================================
-    TEMPO + SAÍDA
-    =========================================================
-  */
+      setVisible(next);
 
-  useEffect(() => {
-
-    if (!visible) {
-      return;
-    }
-
-
-    const exitTimer =
-      window.setTimeout(
-        () => {
-          setLeaving(true);
-        },
-        2700
+      setQueue(
+        remaining
       );
 
+    }, [
+      queue,
+      visible,
+    ]);
 
-    const removeTimer =
-      window.setTimeout(
-        () => {
 
-          setVisible(null);
+    useEffect(() => {
+    if (!visible || dragging || dismissing) {
+      return;
+    }
 
-          setLeaving(false);
+    const exitTimer = window.setTimeout(() => {
+      setLeaving(true);
+    }, 2700);
 
-        },
-        3200
-      );
-
+    const removeTimer = window.setTimeout(() => {
+      setVisible(null);
+      setLeaving(false);
+      setDrag({ x: 0, y: 0 });
+    }, 3200);
 
     return () => {
-
-      window.clearTimeout(
-        exitTimer
-      );
-
-      window.clearTimeout(
-        removeTimer
-      );
-
+      window.clearTimeout(exitTimer);
+      window.clearTimeout(removeTimer);
     };
 
-  }, [
-    visible,
-  ]);
+  }, [visible, dragging, dismissing]);
+
+
+  useEffect(() => {
+    if (!dismissing) return;
+
+    const timer = window.setTimeout(() => {
+      setVisible(null);
+      setLeaving(false);
+      setDismissing(false);
+      setDragging(false);
+      setDrag({ x: 0, y: 0 });
+    }, 250);
+
+    return () => window.clearTimeout(timer);
+
+  }, [dismissing]);
+
+
+/*
+  =========================================================
+  GESTOS DA NOTIFICAÇÃO
+  =========================================================
+*/
+
+function openMissions() {
+  gestureRef.current = null;
+
+  setVisible(null);
+  setQueue([]);
+  setLeaving(false);
+  setDragging(false);
+  setDismissing(false);
+  setDrag({ x: 0, y: 0 });
+
+  navigate('/challenges');
+}
+
+
+function handlePointerDown(event) {
+  if (
+    leaving ||
+    dismissing ||
+    !event.isPrimary ||
+    event.button !== 0
+  ) {
+    return;
+  }
+
+  event.currentTarget.setPointerCapture(
+    event.pointerId
+  );
+
+  gestureRef.current = {
+    pointerId: event.pointerId,
+    startX: event.clientX,
+    startY: event.clientY,
+    moved: false,
+  };
+
+  setDragging(true);
+}
+
+
+function handlePointerMove(event) {
+  const gesture = gestureRef.current;
+
+  if (
+    !gesture ||
+    gesture.pointerId !== event.pointerId
+  ) {
+    return;
+  }
+
+  const x = event.clientX - gesture.startX;
+  const y = event.clientY - gesture.startY;
+
+  if (Math.hypot(x, y) > 8) {
+    gesture.moved = true;
+  }
+
+  setDrag({
+    x,
+    y: Math.min(y, 0),
+  });
+}
+
+
+function handlePointerUp(event) {
+  const gesture = gestureRef.current;
+
+  if (
+    !gesture ||
+    gesture.pointerId !== event.pointerId
+  ) {
+    return;
+  }
+
+  const x = event.clientX - gesture.startX;
+  const y = event.clientY - gesture.startY;
+
+  const distance = Math.hypot(x, y);
+
+  gestureRef.current = null;
+
+  setDragging(false);
+
+  // TOQUE: ABRE AS MISSÕES
+
+  if (!gesture.moved && distance <= 8) {
+    openMissions();
+    return;
+  }
+
+  // ARRASTAR PARA OS LADOS
+
+  if (Math.abs(x) > 80 && Math.abs(x) >= Math.abs(y)) {
+
+    setDismissing(true);
+
+    setDrag({
+      x: x > 0
+        ? window.innerWidth
+        : -window.innerWidth,
+      y: Math.min(y, 0),
+    });
+
+    return;
+  }
+
+  // ARRASTAR PARA CIMA
+
+  if (y < -50) {
+
+    setDismissing(true);
+
+    setDrag({
+      x,
+      y: -250,
+    });
+
+    return;
+  }
+
+  // GESTO CURTO: VOLTA AO LUGAR
+
+  setDrag({
+      x: 0,
+      y: 0,
+    });
+  }
+
+
+  function handlePointerCancel() {
+    gestureRef.current = null;
+
+    setDragging(false);
+
+    setDrag({
+      x: 0,
+      y: 0,
+    });
+  }
+
 
 
   /*
@@ -519,17 +657,49 @@ export default function MissionNotifications() {
 
 
   return (
-    <div
-      className={`
-        mission-toast
-        mission-toast-${visible.type}
-        ${
-          leaving
-            ? 'mission-toast-leaving'
-            : ''
-        }
-      `}
-    >
+    
+      <div
+        key={visible.id}
+
+        className={`
+          mission-toast
+          mission-toast-${visible.type}
+          ${leaving ? 'mission-toast-leaving' : ''}
+          ${dragging ? 'is-dragging' : ''}
+          ${dismissing ? 'is-dismissing' : ''}
+        `}
+
+        role="button"
+        tabIndex={0}
+
+        aria-label={`${visible.eyebrow}: ${visible.title}. Abrir missões.`}
+
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerCancel}
+        onLostPointerCapture={() => {
+          if (gestureRef.current) {
+            handlePointerCancel();
+          }
+        }}
+
+        onKeyDown={(event) => {
+          if (
+            event.key === 'Enter' ||
+            event.key === ' '
+          ) {
+            event.preventDefault();
+            openMissions();
+          }
+        }}
+
+        style={{
+          '--drag-x': `${drag.x}px`,
+          '--drag-y': `${drag.y}px`,
+        }}
+      >
+
 
       <div className="mission-toast-icon">
 

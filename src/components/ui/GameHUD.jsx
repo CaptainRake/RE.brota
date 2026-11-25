@@ -82,17 +82,11 @@ export default function GameHUD() {
       {/* CONFIGURAÇÕES */}
 
       <button
+        type="button"
         className="hud-settings"
-
         data-tutorial="settings"
-
         aria-label="Configurações"
-
-        onClick={() =>
-          console.log(
-            'Configurações'
-          )
-        }
+        onClick={() => navigate('/settings')}
       >
         <img
           src={`${import.meta.env.BASE_URL}ui/hud/Settings.svg`}

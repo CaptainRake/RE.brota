@@ -1,0 +1,233 @@
+/* =========================================
+   CONFIGURAÇÕES — RE:BROTA
+   ========================================= */
+
+.settings-page {
+  position: fixed;
+  inset: 0;
+
+  width: 100%;
+  height: 100dvh;
+
+  padding:
+    calc(24px + env(safe-area-inset-top))
+    20px
+    calc(40px + env(safe-area-inset-bottom));
+
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  background: #DDCDBA;
+  color: #5B3A1C;
+
+  font-family: var(--font-body, 'Montserrat', sans-serif);
+
+  scrollbar-width: none;
+}
+
+.settings-page::-webkit-scrollbar {
+  display: none;
+}
+
+/* CABEÇALHO */
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  margin-bottom: 32px;
+}
+
+.settings-header h1 {
+  margin: 0;
+
+  font-family: var(--font-title, 'Fredoka', sans-serif);
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.settings-back {
+  flex: 0 0 56px;
+
+  width: 56px;
+  height: 56px;
+
+  padding: 0;
+  border: none;
+  background: transparent;
+
+  cursor: pointer;
+}
+
+.settings-back img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* SEÇÕES */
+
+.settings-section {
+  margin-bottom: 24px;
+}
+
+.settings-section h2 {
+  margin: 0 0 12px;
+
+  font-family: var(--font-title, 'Fredoka', sans-serif);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.settings-card {
+  overflow: hidden;
+
+  background: #F5EBDD;
+
+  border: 2px solid #8B5F3C;
+  border-radius: 16px;
+}
+
+/* OPÇÕES */
+
+.settings-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  width: 100%;
+  min-height: 56px;
+
+  padding: 16px;
+
+  border: none;
+  background: transparent;
+
+  color: #5B3A1C;
+
+  font-family: var(--font-body, 'Montserrat', sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+
+  text-align: left;
+}
+
+button.settings-option {
+  cursor: pointer;
+}
+
+.settings-option + .settings-option {
+  border-top: 1px solid #C9B59C;
+}
+
+.settings-option > span {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.settings-option-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.settings-option-text span {
+  color: #8B5F3C;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* SWITCH */
+
+.settings-switch {
+  position: relative;
+
+  flex: 0 0 48px;
+
+  width: 48px;
+  height: 28px;
+
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+
+  background: #B5A38F;
+
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.settings-switch span {
+  position: absolute;
+
+  top: 4px;
+  left: 4px;
+
+  width: 20px;
+  height: 20px;
+
+  border-radius: 50%;
+  background: #F5EBDD;
+
+  transition: transform 0.2s ease;
+}
+
+.settings-switch.active {
+  background: #446342;
+}
+
+.settings-switch.active span {
+  transform: translateX(20px);
+}
+
+/* SOBRE O JOGO */
+
+.settings-about {
+  padding: 20px;
+}
+
+.settings-about h3 {
+  margin: 0 0 12px;
+
+  font-family: var(--font-title, 'Fredoka', sans-serif);
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.settings-about p {
+  margin: 0 0 12px;
+
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.settings-about p:last-child {
+  margin-bottom: 0;
+}
+
+/* RODAPÉ */
+
+.settings-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+
+  padding: 32px 0 16px;
+
+  color: #8B5F3C;
+}
+
+.settings-footer strong {
+  font-family: var(--font-title, 'Fredoka', sans-serif);
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.settings-footer span {
+  font-size: 11px;
+}

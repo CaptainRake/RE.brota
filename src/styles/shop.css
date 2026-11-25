@@ -120,3 +120,18 @@
   .shop-stage { height: 34dvh; min-height: 170px; }
   .shop-carousel-controls { margin: 10px auto 15px; }
 }
+
+/* Impede o scroll horizontal da página */
+
+.shop-page {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
+}
+
+.shop-stage {
+  overflow: visible;
+}

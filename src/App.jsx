@@ -16,6 +16,9 @@ import Intro from './pages/Intro';
 import Shop from './pages/Shop';
 import MissionNotifications from './components/MissionNotifications';
 import ExplorerSetup from './pages/ExplorerSetup';
+import Privacy from './pages/Privacy';
+import PrivacyConsent from './components/ui/PrivacyConsent';
+import Settings from './pages/Settings';
 
 export default function App() {
   return (
@@ -38,8 +41,20 @@ export default function App() {
       <Route path="/intro" element={<Intro />} />
       <Route path="/shop" element={<Shop />} />
       <Route path="/explorer-setup" element={<ExplorerSetup />} />
+      <Route path="/privacidade" element={<Privacy />} />
+      <Route path="/settings" element={<Settings />} />
 
     </Routes>
+
+    return (
+    <>
+      <PrivacyConsent />
+
+      <Routes>
+        {/* Todas as suas rotas existentes */}
+      </Routes>
+    </>
+  );
     </>
   );
 }

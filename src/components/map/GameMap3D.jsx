@@ -1362,7 +1362,7 @@ export default function GameMap3D() {
       const rotationSpeed = 0.3;
 
       map.setBearing(
-        map.getBearing() - deltaX * rotationSpeed
+        map.getBearing() + deltaX * rotationSpeed
       );
 
       lastTouchX = currentX;

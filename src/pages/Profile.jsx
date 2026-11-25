@@ -128,10 +128,8 @@ export default function Profile() {
           (
             discoveries.length /
             encounters.length
-          ) *
-            100
+          ) * 100
         )
-
       : 0;
 
 
@@ -152,7 +150,6 @@ export default function Profile() {
               'numeric',
           }
         )
-
       : '—';
 
 
@@ -169,14 +166,16 @@ export default function Profile() {
   return (
     <main className="profile-page">
 
-      {/* HEADER */}
+      {/* =============================
+          HEADER
+          ============================= */}
 
       <header className="profile-header">
 
         <button
-          className="profile-back"
-
           type="button"
+
+          className="profile-back"
 
           onClick={() =>
             navigate(
@@ -186,19 +185,26 @@ export default function Profile() {
 
           aria-label="Voltar"
         >
-          ←
+          <img
+            src={
+              `${import.meta.env.BASE_URL}ui/common/back.svg`
+            }
+
+            alt=""
+          />
         </button>
 
 
-        <div>
+        <div className="profile-header-copy">
+
+          <span>
+            IDENTIFICAÇÃO
+          </span>
+
 
           <h1>
             Perfil
           </h1>
-
-          <p>
-            Sua identificação de campo
-          </p>
 
         </div>
 
@@ -220,9 +226,9 @@ export default function Profile() {
 
           <div>
 
-            <div className="researcher-card-label">
+            <strong className="researcher-card-label">
               RE:BROTA
-            </div>
+            </strong>
 
             <span className="researcher-card-subtitle">
               Jardim Botânico UFSM
@@ -231,9 +237,9 @@ export default function Profile() {
           </div>
 
 
-          <div className="researcher-card-status">
+          <span className="researcher-card-status">
             EXPLORADOR
-          </div>
+          </span>
 
         </div>
 
@@ -243,9 +249,13 @@ export default function Profile() {
           <div className="researcher-avatar">
 
             <img
-              src={`${import.meta.env.BASE_URL}ui/hud/Profile+Level.svg`}
+              src={
+                `${import.meta.env.BASE_URL}ui/hud/Profile+Level.svg`
+              }
+
               alt=""
             />
+
 
             <span>
               {level}
@@ -267,7 +277,7 @@ export default function Profile() {
 
 
             <span className="researcher-id">
-              {displayCode}
+              ID {displayCode}
             </span>
 
           </div>
@@ -328,11 +338,13 @@ export default function Profile() {
             <div>
 
               <span>
-                Descobertas
+                Registros
               </span>
 
               <strong>
-                {discoveries.length}
+                {
+                  discoveries.length
+                }
               </strong>
 
             </div>
@@ -345,7 +357,9 @@ export default function Profile() {
               </span>
 
               <strong>
-                {badges.length}
+                {
+                  badges.length
+                }
               </strong>
 
             </div>
@@ -364,15 +378,26 @@ export default function Profile() {
       </section>
 
 
-      {/* EXPERIÊNCIA */}
+      {/* =============================
+          EXPERIÊNCIA
+          ============================= */}
 
       <section className="profile-section">
 
         <div className="profile-section-title">
 
-          <h2>
-            Experiência
-          </h2>
+          <div>
+
+            <span>
+              PROGRESSO
+            </span>
+
+            <h2>
+              Experiência
+            </h2>
+
+          </div>
+
 
           <strong>
             {xp} XP
@@ -381,121 +406,180 @@ export default function Profile() {
         </div>
 
 
-        <div className="profile-xp-bar">
+        <div className="profile-xp-card">
 
-          <div
-            className="profile-xp-fill"
+          <div className="profile-xp-level">
 
-            style={{
-              width:
-                `${xpPercent}%`,
-            }}
-          />
+            <span>
+              Nível
+            </span>
 
-        </div>
+            <strong>
+              {level}
+            </strong>
+
+          </div>
 
 
-        <div className="profile-xp-info">
+          <div className="profile-xp-content">
 
-          <span>
-            Nível {level}
-          </span>
+            <div className="profile-xp-bar">
 
-          <span>
-            {xpInLevel}/100 XP
-          </span>
+              <div
+                className="profile-xp-fill"
+
+                style={{
+                  width:
+                    `${xpPercent}%`,
+                }}
+              />
+
+            </div>
+
+
+            <div className="profile-xp-info">
+
+              <span>
+                {xpInLevel} XP
+              </span>
+
+              <span>
+                100 XP
+              </span>
+
+            </div>
+
+          </div>
 
         </div>
 
       </section>
 
 
-      {/* ESTATÍSTICAS */}
-
-      <section className="profile-stats">
-
-        <article className="profile-stat-card">
-
-          <span className="profile-stat-icon">
-            🍃
-          </span>
-
-          <div>
-
-            <span>
-              Folhas
-            </span>
-
-            <strong>
-              {leaves}
-            </strong>
-
-          </div>
-
-        </article>
-
-
-        <article className="profile-stat-card">
-
-          <span className="profile-stat-icon">
-            📖
-          </span>
-
-          <div>
-
-            <span>
-              Guia
-            </span>
-
-            <strong>
-              {guideProgress}%
-            </strong>
-
-          </div>
-
-        </article>
-
-
-        <article className="profile-stat-card">
-
-          <span className="profile-stat-icon">
-            🏅
-          </span>
-
-          <div>
-
-            <span>
-              Selos
-            </span>
-
-            <strong>
-              {badges.length}
-            </strong>
-
-          </div>
-
-        </article>
-
-      </section>
-
-
-      {/* MOCHILA */}
+      {/* =============================
+          ESTATÍSTICAS
+          ============================= */}
 
       <section className="profile-section">
 
         <div className="profile-section-title">
 
-          <h2>
-            Equipamento
-          </h2>
+          <div>
+
+            <span>
+              EXPLORAÇÃO
+            </span>
+
+            <h2>
+              Estatísticas
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div className="profile-stats">
+
+          <article className="profile-stat-card">
+
+            <span className="profile-stat-icon">
+              🍃
+            </span>
+
+
+            <div>
+
+              <span>
+                Folhas
+              </span>
+
+              <strong>
+                {leaves}
+              </strong>
+
+            </div>
+
+          </article>
+
+
+          <article className="profile-stat-card">
+
+            <span className="profile-stat-icon">
+              📖
+            </span>
+
+
+            <div>
+
+              <span>
+                Guia
+              </span>
+
+              <strong>
+                {guideProgress}%
+              </strong>
+
+            </div>
+
+          </article>
+
+
+          <article className="profile-stat-card">
+
+            <span className="profile-stat-icon">
+              🏅
+            </span>
+
+
+            <div>
+
+              <span>
+                Selos
+              </span>
+
+              <strong>
+                {
+                  badges.length
+                }
+              </strong>
+
+            </div>
+
+          </article>
+
+        </div>
+
+      </section>
+
+
+      {/* =============================
+          EQUIPAMENTO
+          ============================= */}
+
+      <section className="profile-section">
+
+        <div className="profile-section-title">
+
+          <div>
+
+            <span>
+              INVENTÁRIO
+            </span>
+
+            <h2>
+              Equipamento
+            </h2>
+
+          </div>
 
         </div>
 
 
         <button
-          className="profile-backpack-card"
-
           type="button"
+
+          className="profile-backpack-card"
 
           onClick={() =>
             navigate(
@@ -504,24 +588,36 @@ export default function Profile() {
           }
         >
 
-          <img
-            src={`${import.meta.env.BASE_URL}ui/hud/${backpack.icon}`}
+          <div className="profile-backpack-image">
 
-            alt={
-              `Mochila ${backpack.name}`
-            }
-          />
+            <img
+              src={
+                `${import.meta.env.BASE_URL}ui/hud/${backpack.icon}`
+              }
+
+              alt={
+                `Mochila ${backpack.name}`
+              }
+            />
+
+          </div>
 
 
-          <div>
+          <div className="profile-backpack-copy">
 
             <span>
-              Mochila atual
+              MOCHILA ATUAL
             </span>
 
             <strong>
-              {backpack.name}
+              {
+                backpack.name
+              }
             </strong>
+
+            <small>
+              Toque para trocar
+            </small>
 
           </div>
 
@@ -535,15 +631,32 @@ export default function Profile() {
       </section>
 
 
-      {/* DISTINTIVOS */}
+      {/* =============================
+          DISTINTIVOS
+          ============================= */}
 
       <section className="profile-section">
 
         <div className="profile-section-title">
 
-          <h2>
-            Distintivos
-          </h2>
+          <div>
+
+            <span>
+              CONQUISTAS
+            </span>
+
+            <h2>
+              Distintivos
+            </h2>
+
+          </div>
+
+
+          <strong>
+            {
+              badges.length
+            }
+          </strong>
 
         </div>
 
@@ -553,12 +666,18 @@ export default function Profile() {
 
           <div className="profile-empty">
 
-            <span>
+            <span className="profile-empty-icon">
               ◇
             </span>
 
+
+            <strong>
+              Nenhum distintivo ainda
+            </strong>
+
+
             <p>
-              Continue explorando para conquistar seus primeiros distintivos.
+              Continue explorando o Jardim Botânico para conquistar seus primeiros distintivos.
             </p>
 
           </div>
@@ -568,9 +687,12 @@ export default function Profile() {
           <div className="profile-badges">
 
             {badges.map(
-              (badge) => (
+              (
+                badge,
+                index
+              ) => (
 
-                <div
+                <article
                   key={
                     badge
                   }
@@ -578,17 +700,36 @@ export default function Profile() {
                   className="profile-badge"
                 >
 
-                  <span>
-                    🏅
+                  <span className="profile-badge-number">
+
+                    #
+                    {
+                      String(
+                        index +
+                        1
+                      ).padStart(
+                        2,
+                        '0'
+                      )
+                    }
+
                   </span>
 
+
+                  <div className="profile-badge-icon">
+                    🏅
+                  </div>
+
+
                   <strong>
-                    {getBadgeName(
-                      badge
-                    )}
+                    {
+                      getBadgeName(
+                        badge
+                      )
+                    }
                   </strong>
 
-                </div>
+                </article>
 
               )
             )}
@@ -611,19 +752,23 @@ export default function Profile() {
 function ResearcherQR({
   value,
 }) {
-  const size = 11;
+  const size =
+    11;
 
 
   function hashString(
     text
   ) {
-    let hash = 0;
+    let hash =
+      0;
+
 
     for (
       let i = 0;
       i < text.length;
       i += 1
     ) {
+
       hash =
         (
           (
@@ -631,10 +776,15 @@ function ResearcherQR({
           ) -
           hash
         ) +
-        text.charCodeAt(i);
+        text.charCodeAt(
+          i
+        );
 
-      hash |= 0;
+
+      hash |=
+        0;
     }
+
 
     return Math.abs(
       hash
@@ -674,12 +824,19 @@ function ResearcherQR({
           startY,
         ]
       ) =>
-        x >= startX &&
+        x >=
+          startX &&
+
         x <
-          startX + 3 &&
-        y >= startY &&
+          startX +
+            3 &&
+
+        y >=
+          startY &&
+
         y <
-          startY + 3
+          startY +
+            3
     );
   }
 
@@ -715,7 +872,8 @@ function ResearcherQR({
   }
 
 
-  const cells = [];
+  const cells =
+    [];
 
 
   for (
@@ -723,14 +881,18 @@ function ResearcherQR({
     y < size;
     y += 1
   ) {
+
     for (
       let x = 0;
       x < size;
       x += 1
     ) {
+
       cells.push(
         <span
-          key={`${x}-${y}`}
+          key={
+            `${x}-${y}`
+          }
 
           className={
             isDark(

@@ -1,0 +1,2729 @@
+/* =========================================
+
+   GUIA DE CAMPO
+
+   ========================================= */
+
+
+
+.field-guide-page {
+
+  --guide-brown-dark:
+
+    #5b3a1c;
+
+
+
+  --guide-brown:
+
+    #8b5f3c;
+
+
+
+  --guide-orange:
+
+    #e19f66;
+
+
+
+  --guide-cream:
+
+    #ddcdba;
+
+
+
+  --guide-black:
+
+    #190d00;
+
+
+
+  --guide-green-dark:
+
+    #345432;
+
+
+
+  --guide-green:
+
+    #446342;
+
+
+
+  --guide-green-light:
+
+    #788e64;
+
+
+
+
+
+  position: absolute;
+
+  inset: 0;
+
+
+
+  width: 100%;
+
+  height: 100dvh;
+
+
+
+  overflow-y: auto;
+
+  overflow-x: hidden;
+
+
+
+  padding:
+
+    calc(
+
+      env(safe-area-inset-top) +
+
+      22px
+
+    )
+
+    20px
+
+    calc(
+
+      env(safe-area-inset-bottom) +
+
+      40px
+
+    );
+
+
+
+  background:
+
+    var(
+
+      --guide-brown
+
+    );
+
+
+
+  color:
+
+    #ffffff;
+
+
+
+  -webkit-overflow-scrolling:
+
+    touch;
+
+}
+
+
+
+
+
+/* =========================================
+
+   CABEÇALHO
+
+   ========================================= */
+
+
+
+.field-guide-header {
+
+  display: flex;
+
+  align-items: center;
+
+
+
+  gap: 14px;
+
+
+
+  margin-bottom:
+
+    34px;
+
+}
+
+
+
+
+
+.field-guide-header h1 {
+
+  margin: 0;
+
+
+
+  color:
+
+    #ffffff;
+
+
+
+  font-size:
+
+    29px;
+
+
+
+  font-weight:
+
+    900;
+
+
+
+  line-height:
+
+    1;
+
+}
+
+
+
+
+
+/* botão preparado para receber
+
+   a arte personalizada */
+
+
+
+.field-guide-back {
+
+  position: relative;
+
+
+
+  width: 54px;
+
+  height: 54px;
+
+
+
+  flex:
+
+    0 0 54px;
+
+
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+
+
+  padding: 0;
+
+
+
+  border: none;
+
+
+
+  background:
+
+    transparent;
+
+
+
+  cursor: pointer;
+
+}
+
+
+
+
+
+.field-guide-back img {
+
+  position: absolute;
+
+
+
+  inset: 0;
+
+
+
+  width: 100%;
+
+  height: 100%;
+
+
+
+  object-fit:
+
+    contain;
+
+
+
+  z-index: 2;
+
+}
+
+
+
+
+
+.field-guide-back-fallback {
+
+  width: 47px;
+
+  height: 47px;
+
+
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+
+
+  border-radius:
+
+    50%;
+
+
+
+  background:
+
+    var(
+
+      --guide-orange
+
+    );
+
+
+
+  color:
+
+    #ffffff;
+
+
+
+  font-size:
+
+    30px;
+
+
+
+  font-weight:
+
+    900;
+
+
+
+  box-shadow:
+
+    4px 5px 0
+
+    var(
+
+      --guide-brown-dark
+
+    );
+
+}
+
+
+
+
+
+.field-guide-back-fallback.hidden {
+
+  display:
+
+    none;
+
+}
+
+
+
+
+
+/* =========================================
+
+   ABAS
+
+   ========================================= */
+
+
+
+.field-guide-tabs {
+
+  width: 100%;
+
+
+
+  display: grid;
+
+
+
+  grid-template-columns:
+
+    repeat(
+
+      3,
+
+      1fr
+
+    );
+
+
+
+  gap: 16px;
+
+
+
+  margin-bottom:
+
+    34px;
+
+}
+
+
+
+
+
+.field-guide-tab {
+
+  position:
+
+    relative;
+
+
+
+  min-width: 0;
+
+
+
+  height: 48px;
+
+
+
+  padding:
+
+    0 8px;
+
+
+
+  border:
+
+    none;
+
+
+
+  border-radius:
+
+    4px;
+
+
+
+  background:
+
+    var(
+
+      --guide-orange
+
+    );
+
+
+
+  color:
+
+    var(
+
+      --guide-black
+
+    );
+
+
+
+  font-size:
+
+    11px;
+
+
+
+  font-weight:
+
+    900;
+
+
+
+  cursor:
+
+    pointer;
+
+
+
+  box-shadow:
+
+    5px 6px 0
+
+    var(
+
+      --guide-brown-dark
+
+    );
+
+
+
+  transition:
+
+    transform
+
+    0.12s ease,
+
+    box-shadow
+
+    0.12s ease,
+
+    background
+
+    0.12s ease;
+
+}
+
+
+
+
+
+.field-guide-tab.active {
+
+  background:
+
+    #eba76e;
+
+
+
+  color:
+
+    #ffffff;
+
+
+
+  transform:
+
+    translateY(
+
+      3px
+
+    );
+
+
+
+  box-shadow:
+
+    3px 3px 0
+
+    var(
+
+      --guide-brown-dark
+
+    );
+
+}
+
+
+
+
+
+.field-guide-tab:active {
+
+  transform:
+
+    translateY(
+
+      4px
+
+    );
+
+
+
+  box-shadow:
+
+    2px 2px 0
+
+    var(
+
+      --guide-brown-dark
+
+    );
+
+}
+
+
+
+
+
+/* =========================================
+
+   CONTEÚDO
+
+   ========================================= */
+
+
+
+.field-guide-tab-content {
+
+  width: 100%;
+
+
+
+  animation:
+
+    guide-tab-enter
+
+    0.2s ease;
+
+}
+
+
+
+
+
+@keyframes guide-tab-enter {
+
+
+
+  from {
+
+    opacity: 0;
+
+
+
+    transform:
+
+      translateY(
+
+        6px
+
+      );
+
+  }
+
+
+
+  to {
+
+    opacity: 1;
+
+
+
+    transform:
+
+      translateY(
+
+        0
+
+      );
+
+  }
+
+
+
+}
+
+
+
+
+
+/* =========================================
+
+   CABEÇALHO DA SEÇÃO
+
+   ========================================= */
+
+
+
+.field-guide-section-heading {
+
+  display: flex;
+
+  align-items:
+
+    flex-end;
+
+
+
+  justify-content:
+
+    space-between;
+
+
+
+  margin-bottom:
+
+    14px;
+
+}
+
+
+
+
+
+.field-guide-section-heading span {
+
+  display: block;
+
+
+
+  margin-bottom:
+
+    2px;
+
+
+
+  color:
+
+    var(
+
+      --guide-cream
+
+    );
+
+
+
+  font-size:
+
+    9px;
+
+
+
+  font-weight:
+
+    900;
+
+
+
+  letter-spacing:
+
+    0.12em;
+
+}
+
+
+
+
+
+.field-guide-section-heading h2 {
+
+  margin: 0;
+
+
+
+  color:
+
+    #ffffff;
+
+
+
+  font-size:
+
+    22px;
+
+
+
+  line-height:
+
+    1;
+
+}
+
+
+
+
+
+.field-guide-section-heading > strong {
+
+  color:
+
+    var(
+
+      --guide-cream
+
+    );
+
+
+
+  font-size:
+
+    13px;
+
+}
+
+
+
+
+
+/* =========================================
+
+   CARDS DA FAUNA
+
+   ========================================= */
+
+
+
+.field-guide-grid {
+
+  display: grid;
+
+
+
+  grid-template-columns:
+
+    repeat(
+
+      2,
+
+      minmax(
+
+        0,
+
+        1fr
+
+      )
+
+    );
+
+
+
+  gap:
+
+    13px;
+
+}
+
+
+
+
+
+.field-guide-animal-card {
+
+  min-width: 0;
+
+
+
+  padding: 0;
+
+
+
+  overflow: hidden;
+
+
+
+  border:
+
+    3px solid
+
+    var(
+
+      --guide-brown-dark
+
+    );
+
+
+
+  border-radius:
+
+    15px;
+
+
+
+  background:
+
+    var(
+
+      --guide-cream
+
+    );
+
+
+
+  color:
+
+    var(
+
+      --guide-black
+
+    );
+
+
+
+  text-align:
+
+    left;
+
+
+
+  cursor:
+
+    pointer;
+
+
+
+  box-shadow:
+
+    5px 6px 0
+
+    rgba(
+
+      25,
+
+      13,
+
+      0,
+
+      0.34
+
+    );
+
+}
+
+
+
+
+
+.field-guide-animal-card.locked {
+
+  opacity:
+
+    0.72;
+
+
+
+  cursor:
+
+    default;
+
+}
+
+
+
+
+
+.field-guide-animal-visual {
+
+  position:
+
+    relative;
+
+
+
+  width: 100%;
+
+  height: 145px;
+
+
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content:
+
+    center;
+
+
+
+  overflow:
+
+    hidden;
+
+
+
+  background:
+
+    #788e64;
+
+}
+
+
+
+
+
+.field-guide-animal-card:nth-child(
+
+  2n
+
+)
+
+.field-guide-animal-visual {
+
+  background:
+
+    #506857;
+
+}
+
+
+
+
+
+.field-guide-card-model {
+
+  width: 100%;
+
+  height: 100%;
+
+
+
+  pointer-events:
+
+    none;
+
+}
+
+
+
+
+
+.field-guide-unknown {
+
+  width: 70px;
+
+  height: 70px;
+
+
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content:
+
+    center;
+
+
+
+  border:
+
+    3px dashed
+
+    rgba(
+
+      25,
+
+      13,
+
+      0,
+
+      0.35
+
+    );
+
+
+
+  border-radius:
+
+    50%;
+
+
+
+  color:
+
+    rgba(
+
+      25,
+
+      13,
+
+      0,
+
+      0.45
+
+    );
+
+
+
+  font-size:
+
+    34px;
+
+
+
+  font-weight:
+
+    900;
+
+}
+
+
+
+
+
+.field-guide-new-dot {
+
+  position:
+
+    absolute;
+
+
+
+  top: 10px;
+
+  right: 10px;
+
+
+
+  width: 12px;
+
+  height: 12px;
+
+
+
+  border-radius:
+
+    50%;
+
+
+
+  background:
+
+    #e19f66;
+
+
+
+  border:
+
+    2px solid
+
+    #ffffff;
+
+}
+
+
+
+
+
+.field-guide-animal-info {
+
+  display: flex;
+
+  flex-direction:
+
+    column;
+
+
+
+  min-height:
+
+    90px;
+
+
+
+  padding:
+
+    12px 13px
+
+    14px;
+
+}
+
+
+
+
+
+.field-guide-number {
+
+  margin-bottom:
+
+    4px;
+
+
+
+  color:
+
+    var(
+
+      --guide-brown
+
+    );
+
+
+
+  font-size:
+
+    9px;
+
+
+
+  font-weight:
+
+    900;
+
+}
+
+
+
+
+
+.field-guide-animal-info strong {
+
+  overflow:
+
+    hidden;
+
+
+
+  color:
+
+    var(
+
+      --guide-black
+
+    );
+
+
+
+  font-size:
+
+    14px;
+
+
+
+  line-height:
+
+    1.25;
+
+
+
+  white-space:
+
+    nowrap;
+
+
+
+  text-overflow:
+
+    ellipsis;
+
+}
+
+
+
+
+
+.field-guide-card-status {
+
+  margin-top:
+
+    5px;
+
+
+
+  color:
+
+    var(
+
+      --guide-brown-dark
+
+    );
+
+
+
+  font-size:
+
+    9px;
+
+
+
+  font-weight:
+
+    700;
+
+
+
+  opacity:
+
+    0.7;
+
+}
+
+
+
+
+
+/* =========================================
+
+   PROGRESSO
+
+   ========================================= */
+
+
+
+.field-guide-progress-panel {
+
+  padding:
+
+    22px;
+
+
+
+  border:
+
+    3px solid
+
+    var(
+
+      --guide-brown-dark
+
+    );
+
+
+
+  border-radius:
+
+    16px;
+
+
+
+  background:
+
+    var(
+
+      --guide-cream
+
+    );
+
+
+
+  color:
+
+    var(
+
+      --guide-black
+
+    );
+
+
+
+  box-shadow:
+
+    6px 7px 0
+
+    var(
+
+      --guide-brown-dark
+
+    );
+
+}
+
+
+
+
+
+.field-guide-panel-kicker {
+
+  display:
+
+    block;
+
+
+
+  margin-bottom:
+
+    10px;
+
+
+
+  color:
+
+    var(
+
+      --guide-brown
+
+    );
+
+
+
+  font-size:
+
+    9px;
+
+
+
+  font-weight:
+
+    900;
+
+
+
+  letter-spacing:
+
+    0.12em;
+
+}
+
+
+
+
+
+.field-guide-progress-number {
+
+  display: flex;
+
+  align-items:
+
+    flex-end;
+
+
+
+  gap: 3px;
+
+}
+
+
+
+
+
+.field-guide-progress-number strong {
+
+  font-size:
+
+    44px;
+
+
+
+  line-height:
+
+    0.9;
+
+}
+
+
+
+
+
+.field-guide-progress-number span {
+
+  font-size:
+
+    22px;
+
+
+
+  font-weight:
+
+    800;
+
+
+
+  opacity:
+
+    0.5;
+
+}
+
+
+
+
+
+.field-guide-progress-panel p {
+
+  margin:
+
+    8px 0 18px;
+
+
+
+  color:
+
+    var(
+
+      --guide-brown-dark
+
+    );
+
+
+
+  font-size:
+
+    12px;
+
+}
+
+
+
+
+
+.field-guide-progress-bar {
+
+  width: 100%;
+
+  height: 11px;
+
+
+
+  overflow:
+
+    hidden;
+
+
+
+  border-radius:
+
+    999px;
+
+
+
+  background:
+
+    rgba(
+
+      91,
+
+      58,
+
+      28,
+
+      0.18
+
+    );
+
+}
+
+
+
+
+
+.field-guide-progress-fill {
+
+  height: 100%;
+
+
+
+  border-radius:
+
+    inherit;
+
+
+
+  background:
+
+    var(
+
+      --guide-green
+
+    );
+
+}
+
+
+
+
+
+.field-guide-progress-stats {
+
+  display: grid;
+
+
+
+  grid-template-columns:
+
+    repeat(
+
+      3,
+
+      1fr
+
+    );
+
+
+
+  gap: 10px;
+
+
+
+  margin-top:
+
+    20px;
+
+}
+
+
+
+
+
+.field-guide-progress-stats div {
+
+  padding:
+
+    14px 8px;
+
+
+
+  border-radius:
+
+    12px;
+
+
+
+  background:
+
+    var(
+
+      --guide-green
+
+    );
+
+
+
+  text-align:
+
+    center;
+
+
+
+  box-shadow:
+
+    4px 4px 0
+
+    var(
+
+      --guide-green-dark
+
+    );
+
+}
+
+
+
+
+
+.field-guide-progress-stats span {
+
+  display:
+
+    block;
+
+
+
+  margin-bottom:
+
+    4px;
+
+
+
+  font-size:
+
+    8px;
+
+
+
+  opacity:
+
+    0.7;
+
+}
+
+
+
+
+
+.field-guide-progress-stats strong {
+
+  font-size:
+
+    19px;
+
+}
+
+
+
+
+
+/* =========================================
+
+   FLORA VAZIA
+
+   ========================================= */
+
+
+
+.field-guide-empty {
+
+  padding:
+
+    42px 24px;
+
+
+
+  border:
+
+    3px solid
+
+    var(
+
+      --guide-brown-dark
+
+    );
+
+
+
+  border-radius:
+
+    15px;
+
+
+
+  background:
+
+    var(
+
+      --guide-cream
+
+    );
+
+
+
+  color:
+
+    var(
+
+      --guide-black
+
+    );
+
+
+
+  text-align:
+
+    center;
+
+
+
+  box-shadow:
+
+    6px 7px 0
+
+    var(
+
+      --guide-brown-dark
+
+    );
+
+}
+
+
+
+
+
+.field-guide-empty-icon {
+
+  margin-bottom:
+
+    12px;
+
+
+
+  color:
+
+    var(
+
+      --guide-green
+
+    );
+
+
+
+  font-size:
+
+    42px;
+
+}
+
+
+
+
+
+.field-guide-empty strong {
+
+  display:
+
+    block;
+
+
+
+  font-size:
+
+    15px;
+
+}
+
+
+
+
+
+.field-guide-empty p {
+
+  max-width:
+
+    250px;
+
+
+
+  margin:
+
+    8px auto 0;
+
+
+
+  color:
+
+    var(
+
+      --guide-brown
+
+    );
+
+
+
+  font-size:
+
+    12px;
+
+
+
+  line-height:
+
+    1.5;
+
+}
+
+
+
+
+
+/* =========================================
+
+   FICHA
+
+   ========================================= */
+
+
+
+.field-guide-detail-overlay {
+
+  position: fixed;
+
+  inset: 0;
+
+
+
+  z-index:
+
+    5000;
+
+
+
+  display: flex;
+
+  align-items:
+
+    flex-end;
+
+
+
+  justify-content:
+
+    center;
+
+
+
+  background:
+
+    rgba(
+
+      25,
+
+      13,
+
+      0,
+
+      0.62
+
+    );
+
+
+
+  backdrop-filter:
+
+    blur(
+
+      3px
+
+    );
+
+}
+
+
+
+
+
+.field-guide-detail {
+
+  position:
+
+    relative;
+
+
+
+  width: 100%;
+
+
+
+  max-width:
+
+    430px;
+
+
+
+  max-height:
+
+    92dvh;
+
+
+
+  overflow-y:
+
+    auto;
+
+
+
+  border-radius:
+
+    26px
+
+    26px
+
+    0
+
+    0;
+
+
+
+  background:
+
+    var(
+
+      --guide-cream
+
+    );
+
+
+
+  color:
+
+    var(
+
+      --guide-black
+
+    );
+
+}
+
+
+
+
+
+.field-guide-detail-close {
+
+  position:
+
+    absolute;
+
+
+
+  z-index:
+
+    4;
+
+
+
+  top:
+
+    14px;
+
+
+
+  right:
+
+    14px;
+
+
+
+  width:
+
+    38px;
+
+
+
+  height:
+
+    38px;
+
+
+
+  border:
+
+    none;
+
+
+
+  border-radius:
+
+    50%;
+
+
+
+  background:
+
+    var(
+
+      --guide-orange
+
+    );
+
+
+
+  color:
+
+    var(
+
+      --guide-black
+
+    );
+
+
+
+  font-size:
+
+    24px;
+
+
+
+  font-weight:
+
+    900;
+
+}
+
+
+
+
+
+.field-guide-detail-model-wrap {
+
+  position:
+
+    relative;
+
+
+
+  width:
+
+    100%;
+
+
+
+  height:
+
+    285px;
+
+
+
+  overflow:
+
+    hidden;
+
+
+
+  background:
+
+    var(
+
+      --guide-green-light
+
+    );
+
+}
+
+
+
+
+
+.field-guide-detail-model {
+
+  width:
+
+    100%;
+
+
+
+  height:
+
+    100%;
+
+}
+
+
+
+
+
+.field-guide-detail-number {
+
+  position:
+
+    absolute;
+
+
+
+  z-index:
+
+    2;
+
+
+
+  top:
+
+    18px;
+
+
+
+  left:
+
+    18px;
+
+
+
+  padding:
+
+    6px 10px;
+
+
+
+  border-radius:
+
+    999px;
+
+
+
+  background:
+
+    var(
+
+      --guide-cream
+
+    );
+
+
+
+  color:
+
+    var(
+
+      --guide-brown-dark
+
+    );
+
+
+
+  font-size:
+
+    10px;
+
+
+
+  font-weight:
+
+    900;
+
+}
+
+
+
+
+
+.field-guide-detail-content {
+
+  padding:
+
+    22px
+
+    20px
+
+    calc(
+
+      28px +
+
+      env(
+
+        safe-area-inset-bottom
+
+      )
+
+    );
+
+}
+
+
+
+
+
+.field-guide-detail-tags {
+
+  display: flex;
+
+
+
+  gap:
+
+    7px;
+
+
+
+  margin-bottom:
+
+    10px;
+
+}
+
+
+
+
+
+.field-guide-detail-tags span {
+
+  padding:
+
+    6px 9px;
+
+
+
+  border-radius:
+
+    999px;
+
+
+
+  background:
+
+    var(
+
+      --guide-green
+
+    );
+
+
+
+  color:
+
+    #ffffff;
+
+
+
+  font-size:
+
+    9px;
+
+
+
+  font-weight:
+
+    900;
+
+}
+
+
+
+
+
+.field-guide-detail-content h2 {
+
+  margin:
+
+    0 0 3px;
+
+
+
+  font-size:
+
+    27px;
+
+}
+
+
+
+
+
+.field-guide-detail-content em {
+
+  color:
+
+    var(
+
+      --guide-brown
+
+    );
+
+
+
+  font-size:
+
+    12px;
+
+}
+
+
+
+
+
+.field-guide-detail-divider {
+
+  height:
+
+    2px;
+
+
+
+  margin:
+
+    20px
+
+    0;
+
+
+
+  background:
+
+    rgba(
+
+      91,
+
+      58,
+
+      28,
+
+      0.15
+
+    );
+
+}
+
+
+
+
+
+.field-guide-detail-content h3 {
+
+  margin:
+
+    0 0 8px;
+
+
+
+  font-size:
+
+    15px;
+
+}
+
+
+
+
+
+.field-guide-detail-content > p {
+
+  margin:
+
+    0 0 20px;
+
+
+
+  color:
+
+    var(
+
+      --guide-brown-dark
+
+    );
+
+
+
+  font-size:
+
+    13px;
+
+
+
+  line-height:
+
+    1.55;
+
+}
+
+
+
+
+
+/* =========================================
+
+   DADOS DA ESPÉCIE
+
+   ========================================= */
+
+
+
+.field-guide-facts {
+
+  width:
+
+    100%;
+
+
+
+  margin-bottom:
+
+    20px;
+
+
+
+  overflow:
+
+    hidden;
+
+
+
+  border:
+
+    2px solid
+
+    rgba(
+
+      91,
+
+      58,
+
+      28,
+
+      0.15
+
+    );
+
+
+
+  border-radius:
+
+    14px;
+
+
+
+  background:
+
+    rgba(
+
+      255,
+
+      255,
+
+      255,
+
+      0.3
+
+    );
+
+}
+
+
+
+
+
+.field-guide-fact {
+
+  display:
+
+    grid;
+
+
+
+  grid-template-columns:
+
+    40%
+
+    1fr;
+
+
+
+  gap:
+
+    12px;
+
+
+
+  padding:
+
+    13px
+
+    14px;
+
+
+
+  border-bottom:
+
+    1px solid
+
+    rgba(
+
+      91,
+
+      58,
+
+      28,
+
+      0.15
+
+    );
+
+}
+
+
+
+
+
+.field-guide-fact:last-child {
+
+  border-bottom:
+
+    none;
+
+}
+
+
+
+
+
+.field-guide-fact span {
+
+  color:
+
+    var(
+
+      --guide-brown
+
+    );
+
+
+
+  font-size:
+
+    10px;
+
+
+
+  font-weight:
+
+    700;
+
+}
+
+
+
+
+
+.field-guide-fact strong {
+
+  font-size:
+
+    11px;
+
+
+
+  line-height:
+
+    1.4;
+
+}
+
+
+
+
+
+.field-guide-observed {
+
+  display:
+
+    flex;
+
+
+
+  align-items:
+
+    center;
+
+
+
+  gap:
+
+    11px;
+
+
+
+  padding:
+
+    13px
+
+    14px;
+
+
+
+  border-radius:
+
+    14px;
+
+
+
+  background:
+
+    var(
+
+      --guide-green
+
+    );
+
+
+
+  color:
+
+    #ffffff;
+
+}
+
+
+
+
+
+.field-guide-observed > span {
+
+  width:
+
+    30px;
+
+
+
+  height:
+
+    30px;
+
+
+
+  flex:
+
+    0 0 30px;
+
+
+
+  display:
+
+    flex;
+
+
+
+  align-items:
+
+    center;
+
+
+
+  justify-content:
+
+    center;
+
+
+
+  border-radius:
+
+    50%;
+
+
+
+  background:
+
+    var(
+
+      --guide-green-dark
+
+    );
+
+
+
+  font-weight:
+
+    900;
+
+}
+
+
+
+
+
+.field-guide-observed div {
+
+  display:
+
+    flex;
+
+
+
+  flex-direction:
+
+    column;
+
+}
+
+
+
+
+
+.field-guide-observed strong {
+
+  font-size:
+
+    11px;
+
+}
+
+
+
+
+
+.field-guide-observed small {
+
+  margin-top:
+
+    2px;
+
+
+
+  font-size:
+
+    9px;
+
+
+
+  opacity:
+
+    0.7;
+
+}

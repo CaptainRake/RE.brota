@@ -42,7 +42,7 @@ export default function Backpack() {
       >
         <img
           src={
-            `${import.meta.env.BASE_URL}ui/backpack/CloseBackpack.svg`
+            `${import.meta.env.BASE_URL}ui/common/close.svg`
           }
           alt=""
         />

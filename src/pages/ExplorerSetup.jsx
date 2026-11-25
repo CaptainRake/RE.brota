@@ -50,7 +50,7 @@ export default function ExplorerSetup() {
 
 
     setPlayerName(
-      name
+      name.trim()
     );
 
 
@@ -63,21 +63,25 @@ export default function ExplorerSetup() {
   return (
     <main className="explorer-setup-page">
 
-      <div className="explorer-setup-content">
+      <section className="explorer-setup-content">
 
-        <span className="explorer-setup-kicker">
-          IDENTIFICAÇÃO DE CAMPO
-        </span>
+        <header className="explorer-setup-header">
 
-
-        <h1>
-          Como devemos chamar você?
-        </h1>
+          <span className="explorer-setup-kicker">
+            IDENTIFICAÇÃO DE CAMPO
+          </span>
 
 
-        <p>
-          Esse nome aparecerá no seu crachá de explorador.
-        </p>
+          <h1>
+            Como devemos chamar você?
+          </h1>
+
+
+          <p>
+            Esse nome aparecerá no seu crachá de explorador.
+          </p>
+
+        </header>
 
 
         <div className="explorer-name-card">
@@ -87,74 +91,82 @@ export default function ExplorerSetup() {
           </div>
 
 
-          <label
-            htmlFor="explorer-name"
-          >
-            Nome do explorador
-          </label>
+          <div className="explorer-name-field">
+
+            <label
+              htmlFor="explorer-name"
+            >
+              Nome do explorador
+            </label>
 
 
-          <input
-            id="explorer-name"
+            <input
+              id="explorer-name"
 
-            type="text"
+              type="text"
 
-            value={name}
+              value={name}
 
-            maxLength={24}
+              maxLength={24}
 
-            autoComplete="off"
+              autoComplete="off"
 
-            placeholder="Digite seu nome"
+              placeholder="Digite seu nome"
 
-            onChange={(event) =>
-              setName(
-                event.target.value
-              )
-            }
-
-            onKeyDown={(event) => {
-              if (
-                event.key ===
-                'Enter'
-              ) {
-                event.currentTarget
-                  .blur();
-
-                handleContinue();
+              onChange={(event) =>
+                setName(
+                  event.target.value
+                )
               }
-            }}
-          />
+
+              onKeyDown={(event) => {
+                if (
+                  event.key ===
+                  'Enter'
+                ) {
+                  event.currentTarget
+                    .blur();
+
+                  handleContinue();
+                }
+              }}
+            />
 
 
-          <span className="explorer-name-counter">
-            {name.length}/24
-          </span>
+            <span className="explorer-name-counter">
+              {name.length}/24
+            </span>
+
+          </div>
 
         </div>
 
 
-        <button
-          type="button"
+        <div className="explorer-setup-actions">
 
-          className="explorer-setup-button"
+          <button
+            type="button"
 
-          disabled={
-            !validName
-          }
+            className="explorer-setup-button"
 
-          onClick={() => {
-            document
-              .activeElement
-              ?.blur();
+            disabled={
+              !validName
+            }
 
-            handleContinue();
-          }}
-        >
-          Criar identificação
-        </button>
+            onClick={() => {
+              document
+                .activeElement
+                ?.blur();
 
-      </div>
+              handleContinue();
+            }}
+          >
+            Criar identificação
+          </button>
+
+        </div>
+
+      </section>
 
     </main>
   );

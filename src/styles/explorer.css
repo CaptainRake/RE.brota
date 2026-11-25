@@ -1,0 +1,556 @@
+/* =========================================================
+   RE:BROTA — IDENTIFICAÇÃO DO EXPLORADOR
+   ========================================================= */
+
+.explorer-setup-page {
+  position:
+    fixed;
+
+  inset:
+    0;
+
+  width:
+    100%;
+
+  height:
+    100dvh;
+
+  display:
+    flex;
+
+  justify-content:
+    center;
+
+  padding:
+    calc(
+      env(safe-area-inset-top) +
+      24px
+    )
+    20px
+    calc(
+      env(safe-area-inset-bottom) +
+      24px
+    );
+
+  overflow:
+    hidden;
+
+  background:
+    var(
+      --color-brown
+    );
+
+  color:
+    #ffffff;
+}
+
+
+/* =========================================================
+   CONTEÚDO
+   ========================================================= */
+
+.explorer-setup-content {
+  width:
+    100%;
+
+  max-width:
+    430px;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    stretch;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.explorer-setup-header {
+  width:
+    100%;
+
+  margin-bottom:
+    24px;
+}
+
+
+.explorer-setup-kicker {
+  display:
+    block;
+
+  margin-bottom:
+    4px;
+
+  color:
+    var(
+      --color-cream
+    );
+
+  font-size:
+    9px;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    0.12em;
+}
+
+
+.explorer-setup-header h1 {
+  max-width:
+    320px;
+
+  margin:
+    0;
+
+  color:
+    #ffffff;
+
+  font-family:
+    var(
+      --font-title
+    );
+
+  font-size:
+    30px;
+
+  line-height:
+    1.05;
+
+  font-weight:
+    700;
+}
+
+
+.explorer-setup-header p {
+  max-width:
+    310px;
+
+  margin:
+    8px
+    0
+    0;
+
+  color:
+    var(
+      --color-cream
+    );
+
+  font-size:
+    12px;
+
+  line-height:
+    1.45;
+
+  opacity:
+    0.85;
+}
+
+
+/* =========================================================
+   CARD DE IDENTIFICAÇÃO
+   ========================================================= */
+
+.explorer-name-card {
+  position:
+    relative;
+
+  width:
+    100%;
+
+  display:
+    grid;
+
+  grid-template-columns:
+    74px
+    1fr;
+
+  gap:
+    16px;
+
+  align-items:
+    center;
+
+  padding:
+    18px;
+
+  border:
+    3px solid
+    var(
+      --color-brown-dark
+    );
+
+  border-radius:
+    16px;
+
+  background:
+    var(
+      --color-cream
+    );
+
+  color:
+    var(
+      --color-black
+    );
+
+  box-shadow:
+    6px 7px 0
+    var(
+      --color-brown-dark
+    );
+}
+
+
+/* =========================================================
+   AVATAR
+   ========================================================= */
+
+.explorer-name-avatar {
+  width:
+    74px;
+
+  height:
+    74px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  border:
+    3px solid
+    var(
+      --color-green-1
+    );
+
+  border-radius:
+    50%;
+
+  background:
+    var(
+      --color-green-6
+    );
+
+  color:
+    var(
+      --color-green-1
+    );
+
+  font-family:
+    var(
+      --font-title
+    );
+
+  font-size:
+    28px;
+
+  font-weight:
+    700;
+}
+
+
+/* =========================================================
+   CAMPO
+   ========================================================= */
+
+.explorer-name-field {
+  min-width:
+    0;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+}
+
+
+.explorer-name-field label {
+  display:
+    block;
+
+  margin-bottom:
+    5px;
+
+  color:
+    var(
+      --color-brown-dark
+    );
+
+  font-size:
+    9px;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    0.08em;
+}
+
+
+.explorer-name-field input {
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  padding:
+    8px
+    0;
+
+  border:
+    none;
+
+  border-bottom:
+    2px solid
+    rgba(
+      91,
+      58,
+      28,
+      0.25
+    );
+
+  outline:
+    none;
+
+  background:
+    transparent;
+
+  color:
+    var(
+      --color-black
+    );
+
+  font-family:
+    var(
+      --font-title
+    );
+
+  font-size:
+    20px;
+
+  font-weight:
+    600;
+}
+
+
+.explorer-name-field input::placeholder {
+  color:
+    var(
+      --color-brown
+    );
+
+  opacity:
+    0.45;
+}
+
+
+.explorer-name-field input:focus {
+  border-bottom-color:
+    var(
+      --color-green-4
+    );
+}
+
+
+.explorer-name-counter {
+  display:
+    block;
+
+  margin-top:
+    5px;
+
+  color:
+    var(
+      --color-brown
+    );
+
+  text-align:
+    right;
+
+  font-size:
+    8px;
+
+  font-weight:
+    600;
+}
+
+
+/* =========================================================
+   AÇÃO
+   ========================================================= */
+
+.explorer-setup-actions {
+  width:
+    100%;
+
+  margin-top:
+    24px;
+}
+
+
+.explorer-setup-button {
+  width:
+    100%;
+
+  min-height:
+    52px;
+
+  border:
+    3px solid
+    var(
+      --color-green-1
+    );
+
+  border-radius:
+    8px;
+
+  background:
+    var(
+      --color-green-4
+    );
+
+  color:
+    #f3e8d8;
+
+  font-family:
+    var(
+      --font-title
+    );
+
+  font-size:
+    16px;
+
+  font-weight:
+    700;
+
+  cursor:
+    pointer;
+
+  box-shadow:
+    5px 6px 0
+    var(
+      --color-green-1
+    );
+
+  transition:
+    transform
+    0.12s ease,
+    box-shadow
+    0.12s ease,
+    opacity
+    0.12s ease;
+}
+
+
+.explorer-setup-button:not(
+  :disabled
+):active {
+  transform:
+    translateY(
+      3px
+    );
+
+  box-shadow:
+    2px 3px 0
+    var(
+      --color-green-1
+    );
+}
+
+
+.explorer-setup-button:disabled {
+  opacity:
+    0.4;
+
+  cursor:
+    default;
+}
+
+
+/* =========================================================
+   TELAS BAIXAS
+   ========================================================= */
+
+@media (
+  max-height:
+    700px
+) {
+
+  .explorer-setup-page {
+    padding-top:
+      calc(
+        env(
+          safe-area-inset-top
+        ) +
+        16px
+      );
+
+    padding-bottom:
+      calc(
+        env(
+          safe-area-inset-bottom
+        ) +
+        16px
+      );
+  }
+
+
+  .explorer-setup-content {
+    gap:
+      20px;
+  }
+
+
+  .explorer-setup-header h1 {
+    font-size:
+      26px;
+  }
+
+
+  .explorer-name-card {
+    grid-template-columns:
+      64px
+      1fr;
+
+    gap:
+      12px;
+
+    padding:
+      14px;
+  }
+
+
+  .explorer-name-avatar {
+    width:
+      64px;
+
+    height:
+      64px;
+  }
+
+
+  .explorer-name-field input {
+    font-size:
+      18px;
+  }
+
+
+  .explorer-setup-button {
+    min-height:
+      48px;
+  }
+
+}

@@ -1,0 +1,316 @@
+/* =========================================================
+   RE:BROTA — BASE
+   ========================================================= */
+
+
+/* =========================================================
+   FONTES
+   ========================================================= */
+
+@font-face {
+  font-family: 'Fredoka';
+
+  src:
+    url('/jARdim2.0/fonts/Fredoka-VariableFont_wdth,wght.ttf')
+    format('truetype');
+
+  font-style: normal;
+  font-weight: 300 700;
+
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'Montserrat';
+
+  src:
+    url('/jARdim2.0/fonts/Montserrat-VariableFont_wght.ttf')
+    format('truetype');
+
+  font-style: normal;
+  font-weight: 100 900;
+
+  font-display: swap;
+}
+
+
+/* =========================================================
+   VARIÁVEIS GLOBAIS
+   ========================================================= */
+
+:root {
+  /* Tipografia */
+
+  --font-title:
+    'Fredoka',
+    sans-serif;
+
+  --font-body:
+    'Montserrat',
+    sans-serif;
+
+
+  /* Paleta principal */
+
+  --color-black:
+    #190d00;
+
+  --color-brown-dark:
+    #5b3a1c;
+
+  --color-brown:
+    #8b5f3c;
+
+  --color-orange:
+    #e19f66;
+
+  --color-cream:
+    #ddcdba;
+
+
+  --color-green-1:
+    #345432;
+
+  --color-green-2:
+    #32543d;
+
+  --color-green-3:
+    #425432;
+
+  --color-green-4:
+    #446342;
+
+  --color-green-5:
+    #506857;
+
+  --color-green-6:
+    #788e64;
+
+
+  /* Interface */
+
+  --page-background:
+    #eef2df;
+
+  --text-primary:
+    #293323;
+
+  --text-secondary:
+    #657060;
+}
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+  box-sizing:
+    border-box;
+}
+
+
+html,
+body,
+#root {
+  width:
+    100%;
+
+  height:
+    100%;
+
+  margin:
+    0;
+
+  padding:
+    0;
+}
+
+
+html,
+body {
+  overflow:
+    hidden;
+
+  overscroll-behavior:
+    none;
+
+  background:
+    var(
+      --page-background
+    );
+
+  font-family:
+    var(
+      --font-body
+    );
+}
+
+
+html {
+  height:
+    -webkit-fill-available;
+}
+
+
+body {
+  min-width:
+    0;
+
+  min-height:
+    100vh;
+
+  min-height:
+    100dvh;
+
+  min-height:
+    -webkit-fill-available;
+
+  color:
+    var(
+      --text-primary
+    );
+
+  font-family:
+    var(
+      --font-body
+    );
+}
+
+
+html,
+body,
+#root {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+#root::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+
+#root {
+  position:
+    fixed;
+
+  inset:
+    0;
+
+  width:
+    100vw;
+
+  height:
+    100vh;
+
+  height:
+    100dvh;
+
+  max-width:
+    none;
+
+  overflow:
+    hidden;
+}
+
+
+/* =========================================================
+   TIPOGRAFIA
+   ========================================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family:
+    var(
+      --font-title
+    );
+}
+
+
+button,
+input,
+textarea,
+select {
+  font-family:
+    inherit;
+}
+
+
+button {
+  font-family:
+    var(
+      --font-title
+    );
+}
+
+
+p,
+span,
+small,
+label,
+input,
+textarea,
+select,
+li {
+  font-family:
+    var(
+      --font-body
+    );
+}
+
+
+/* =========================================================
+   ELEMENTOS DE GAME UI
+   ========================================================= */
+
+.mission-tag,
+.mission-status,
+.mission-reward,
+
+.researcher-card-label,
+.researcher-card-status,
+
+.field-guide-kicker,
+.field-guide-tab,
+.field-guide-panel-kicker,
+
+.hud-level,
+
+.shop-development-tag {
+  font-family:
+    var(
+      --font-title
+    );
+}
+
+
+/* =========================================================
+   ELEMENTOS DE TEXTO LONGO
+   ========================================================= */
+
+.mission-card p,
+
+.profile-header p,
+
+.field-guide-detail-content p,
+.field-guide-fact span,
+.field-guide-fact strong,
+.field-guide-card-status,
+
+.trash-popup p,
+
+.explorer-setup-content p {
+  font-family:
+    var(
+      --font-body
+    );
+}

@@ -21,6 +21,13 @@ export default function Guide() {
 
 
   const [
+    activeTab,
+    setActiveTab,
+  ] =
+    useState('fauna');
+
+
+  const [
     selectedAnimal,
     setSelectedAnimal,
   ] =
@@ -68,13 +75,11 @@ export default function Guide() {
   function openAnimal(
     animal
   ) {
-    const registered =
-      discoveries.includes(
+    if (
+      !discoveries.includes(
         animal.id
-      );
-
-
-    if (!registered) {
+      )
+    ) {
       return;
     }
 
@@ -93,7 +98,9 @@ export default function Guide() {
   return (
     <main className="field-guide-page">
 
-      {/* HEADER */}
+      {/* =========================
+          CABEÇALHO
+          ========================= */}
 
       <header className="field-guide-header">
 
@@ -105,232 +112,451 @@ export default function Guide() {
           }
           aria-label="Voltar"
         >
-          ←
+
+          <img
+            src={
+              `${import.meta.env.BASE_URL}ui/common/back.svg`
+            }
+            alt=""
+            onLoad={(
+              event
+            ) => {
+              event.currentTarget
+                .nextElementSibling
+                ?.classList
+                .add(
+                  'hidden'
+                );
+            }}
+            onError={(
+              event
+            ) => {
+              event.currentTarget
+                .style
+                .display =
+                'none';
+            }}
+          />
+
+
+          <span className="field-guide-back-fallback">
+            ←
+          </span>
+
         </button>
 
 
-        <div>
-
-          <span className="field-guide-kicker">
-            CADERNO DE CAMPO
-          </span>
-
-
-          <h1>
-            Guia de Campo
-          </h1>
-
-        </div>
+        <h1>
+          Guia de Campo
+        </h1>
 
       </header>
 
 
-      {/* PROGRESSO */}
+      {/* =========================
+          ABAS
+          ========================= */}
 
-      <section className="field-guide-progress-card">
+      <nav className="field-guide-tabs">
 
-        <div className="field-guide-progress-top">
+        <button
+          type="button"
 
-          <div>
+          className={`field-guide-tab ${
+            activeTab ===
+            'progress'
+              ? 'active'
+              : ''
+          }`}
 
-            <span>
-              Espécies registradas
+          onClick={() =>
+            setActiveTab(
+              'progress'
+            )
+          }
+        >
+          PROGRESSO
+        </button>
+
+
+        <button
+          type="button"
+
+          className={`field-guide-tab ${
+            activeTab ===
+            'fauna'
+              ? 'active'
+              : ''
+          }`}
+
+          onClick={() =>
+            setActiveTab(
+              'fauna'
+            )
+          }
+        >
+          FAUNA
+        </button>
+
+
+        <button
+          type="button"
+
+          className={`field-guide-tab ${
+            activeTab ===
+            'flora'
+              ? 'active'
+              : ''
+          }`}
+
+          onClick={() =>
+            setActiveTab(
+              'flora'
+            )
+          }
+        >
+          FLORA
+        </button>
+
+      </nav>
+
+
+      {/* =========================
+          PROGRESSO
+          ========================= */}
+
+      {activeTab ===
+        'progress' && (
+
+        <section className="field-guide-tab-content">
+
+          <div className="field-guide-progress-panel">
+
+            <span className="field-guide-panel-kicker">
+              PROGRESSO GERAL
             </span>
 
 
+            <div className="field-guide-progress-number">
+
+              <strong>
+                {
+                  registeredCount
+                }
+              </strong>
+
+              <span>
+                /
+                {
+                  totalCount
+                }
+              </span>
+
+            </div>
+
+
+            <p>
+              espécies da fauna
+              registradas
+            </p>
+
+
+            <div className="field-guide-progress-bar">
+
+              <div
+                className="field-guide-progress-fill"
+
+                style={{
+                  width:
+                    `${progress}%`,
+                }}
+              />
+
+            </div>
+
+          </div>
+
+
+          <div className="field-guide-progress-stats">
+
+            <div>
+
+              <span>
+                Encontradas
+              </span>
+
+              <strong>
+                {
+                  registeredCount
+                }
+              </strong>
+
+            </div>
+
+
+            <div>
+
+              <span>
+                Restantes
+              </span>
+
+              <strong>
+                {
+                  Math.max(
+                    totalCount -
+                    registeredCount,
+                    0
+                  )
+                }
+              </strong>
+
+            </div>
+
+
+            <div>
+
+              <span>
+                Conclusão
+              </span>
+
+              <strong>
+                {
+                  Math.round(
+                    progress
+                  )
+                }%
+              </strong>
+
+            </div>
+
+          </div>
+
+        </section>
+
+      )}
+
+
+      {/* =========================
+          FAUNA
+          ========================= */}
+
+      {activeTab ===
+        'fauna' && (
+
+        <section className="field-guide-tab-content">
+
+          <div className="field-guide-section-heading">
+
+            <div>
+
+              <span>
+                REGISTROS
+              </span>
+
+              <h2>
+                Fauna
+              </h2>
+
+            </div>
+
+
             <strong>
-
-              {registeredCount}
-
-              <small>
-                /{totalCount}
-              </small>
-
+              {
+                registeredCount
+              }
+              /
+              {
+                totalCount
+              }
             </strong>
 
           </div>
 
 
-          <div className="field-guide-progress-icon">
-            ◉
-          </div>
+          <div className="field-guide-grid">
 
-        </div>
+            {encounters.map(
+              (
+                animal,
+                index
+              ) => {
 
-
-        <div className="field-guide-progress-bar">
-
-          <div
-            className="field-guide-progress-fill"
-
-            style={{
-              width:
-                `${progress}%`,
-            }}
-          />
-
-        </div>
-
-
-        <p>
-          Explore o Jardim Botânico
-          e registre as espécies
-          encontradas durante o caminho.
-        </p>
-
-      </section>
-
-
-      {/* GRADE */}
-
-      <section className="field-guide-section">
-
-        <div className="field-guide-section-title">
-
-          <h2>
-            Fauna observada
-          </h2>
-
-
-          <span>
-            {registeredCount} descobertas
-          </span>
-
-        </div>
-
-
-        <div className="field-guide-grid">
-
-          {encounters.map(
-            (animal) => {
-
-              const registered =
-                discoveries.includes(
-                  animal.id
-                );
-
-
-              const read =
-                readAnimals.includes(
-                  animal.id
-                );
-
-
-              const index =
-                encounters.findIndex(
-                  (item) =>
-                    item.id ===
+                const registered =
+                  discoveries.includes(
                     animal.id
-                ) + 1;
+                  );
 
 
-              return (
-                <button
-                  type="button"
-
-                  key={
+                const read =
+                  readAnimals.includes(
                     animal.id
-                  }
+                  );
 
-                  className={`field-guide-animal-card ${
-                    registered
-                      ? 'registered'
-                      : 'locked'
-                  }`}
 
-                  onClick={() =>
-                    openAnimal(
-                      animal
-                    )
-                  }
-                >
+                return (
+                  <button
+                    type="button"
 
-                  <div className="field-guide-animal-visual">
+                    key={
+                      animal.id
+                    }
 
-                    {registered ? (
+                    className={`field-guide-animal-card ${
+                      registered
+                        ? 'registered'
+                        : 'locked'
+                    }`}
 
-                      <model-viewer
-                        src={
-                          `${import.meta.env.BASE_URL}models/${animal.model}`
+                    onClick={() =>
+                      openAnimal(
+                        animal
+                      )
+                    }
+                  >
+
+                    <div className="field-guide-animal-visual">
+
+                      {registered ? (
+
+                        <model-viewer
+                          src={
+                            `${import.meta.env.BASE_URL}models/${animal.model}`
+                          }
+
+                          camera-orbit="0deg 75deg 105%"
+
+                          interaction-prompt="none"
+
+                          disable-zoom
+
+                          class="field-guide-card-model"
+                        />
+
+                      ) : (
+
+                        <div className="field-guide-unknown">
+                          ?
+                        </div>
+
+                      )}
+
+
+                      {registered &&
+                        !read && (
+
+                        <span className="field-guide-new-dot" />
+
+                      )}
+
+                    </div>
+
+
+                    <div className="field-guide-animal-info">
+
+                      <span className="field-guide-number">
+
+                        #
+                        {
+                          String(
+                            index +
+                            1
+                          ).padStart(
+                            2,
+                            '0'
+                          )
                         }
 
-                        camera-orbit="0deg 75deg 105%"
-
-                        interaction-prompt="none"
-
-                        disable-zoom
-
-                        class="field-guide-card-model"
-                      />
-
-                    ) : (
-
-                      <div className="field-guide-unknown">
-                        ?
-                      </div>
-
-                    )}
+                      </span>
 
 
-                    {registered &&
-                      !read && (
+                      <strong>
 
-                      <span className="field-guide-new-dot" />
+                        {registered
+                          ? animal.name
+                          : 'Não identificado'}
 
-                    )}
-
-                  </div>
-
-
-                  <div className="field-guide-animal-info">
-
-                    <span className="field-guide-number">
-
-                      #
-                      {
-                        String(
-                          index
-                        ).padStart(
-                          2,
-                          '0'
-                        )
-                      }
-
-                    </span>
+                      </strong>
 
 
-                    <strong>
+                      <span className="field-guide-card-status">
 
-                      {registered
-                        ? animal.name
-                        : 'Não identificado'}
+                        {registered
+                          ? getRarityLabel(
+                              animal.rarity
+                            )
+                          : 'Não encontrado'}
 
-                    </strong>
+                      </span>
 
+                    </div>
 
-                    <span className="field-guide-card-status">
+                  </button>
+                );
+              }
+            )}
 
-                      {registered
-                        ? read
-                          ? 'Ficha consultada'
-                          : 'Novo registro'
-                        : 'Ainda não encontrado'}
+          </div>
 
-                    </span>
+        </section>
 
-                  </div>
-
-                </button>
-              );
-            }
-          )}
-
-        </div>
-
-      </section>
+      )}
 
 
-      {/* FICHA */}
+      {/* =========================
+          FLORA
+          ========================= */}
+
+      {activeTab ===
+        'flora' && (
+
+        <section className="field-guide-tab-content">
+
+          <div className="field-guide-section-heading">
+
+            <div>
+
+              <span>
+                REGISTROS
+              </span>
+
+              <h2>
+                Flora
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div className="field-guide-empty">
+
+            <div className="field-guide-empty-icon">
+              ♧
+            </div>
+
+
+            <strong>
+              Novos registros em breve
+            </strong>
+
+
+            <p>
+              As espécies vegetais
+              encontradas durante a
+              exploração aparecerão
+              aqui.
+            </p>
+
+          </div>
+
+        </section>
+
+      )}
+
+
+      {/* =========================
+          FICHA DO ANIMAL
+          ========================= */}
 
       {selectedAnimal && (
 
@@ -350,7 +576,8 @@ export default function Guide() {
             onClick={(
               event
             ) =>
-              event.stopPropagation()
+              event
+                .stopPropagation()
             }
           >
 
@@ -416,17 +643,13 @@ export default function Guide() {
                 </span>
 
 
-                {selectedAnimal.rarity && (
-
-                  <span>
-                    {
-                      getRarityLabel(
-                        selectedAnimal.rarity
-                      )
-                    }
-                  </span>
-
-                )}
+                <span>
+                  {
+                    getRarityLabel(
+                      selectedAnimal.rarity
+                    )
+                  }
+                </span>
 
               </div>
 
@@ -438,15 +661,11 @@ export default function Guide() {
               </h2>
 
 
-              {selectedAnimal.scientificName && (
-
-                <em>
-                  {
-                    selectedAnimal.scientificName
-                  }
-                </em>
-
-              )}
+              <em>
+                {
+                  selectedAnimal.scientificName
+                }
+              </em>
 
 
               <div className="field-guide-detail-divider" />
@@ -464,10 +683,9 @@ export default function Guide() {
               </p>
 
 
-              {/* DADOS DO ANIMAL */}
-
               {selectedAnimal.facts &&
-                selectedAnimal.facts.length > 0 && (
+                selectedAnimal.facts.length >
+                  0 && (
 
                 <div className="field-guide-facts">
 
@@ -479,6 +697,7 @@ export default function Guide() {
 
                       <div
                         className="field-guide-fact"
+
                         key={
                           index
                         }
@@ -503,6 +722,7 @@ export default function Guide() {
                   )}
 
                 </div>
+
               )}
 
 
@@ -522,7 +742,7 @@ export default function Guide() {
 
                   <small>
                     Espécie adicionada ao
-                    seu Guia de Campo
+                    Guia de Campo
                   </small>
 
                 </div>

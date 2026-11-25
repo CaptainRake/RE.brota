@@ -1,0 +1,1240 @@
+/* =========================================================
+
+   MISSÕES / DESAFIOS
+
+   ========================================================= */
+
+
+
+.missions-page {
+
+  position: absolute;
+
+  inset: 0;
+
+
+
+  width: 100%;
+
+  height: 100dvh;
+
+
+
+  padding:
+
+    calc(24px + env(safe-area-inset-top))
+
+    18px
+
+    calc(30px + env(safe-area-inset-bottom));
+
+
+
+  overflow-y: auto;
+
+  overflow-x: hidden;
+
+
+
+  -webkit-overflow-scrolling: touch;
+
+
+
+  background: #eef4df;
+
+}
+
+
+
+
+
+/* Cabeçalho */
+
+
+
+.missions-header {
+
+  display: flex;
+
+  align-items: flex-start;
+
+
+
+  gap: 14px;
+
+
+
+  margin-bottom: 28px;
+
+}
+
+
+
+.missions-header h1 {
+
+  margin: 0;
+
+
+
+  font-size: 30px;
+
+  line-height: 1;
+
+  font-weight: 800;
+
+
+
+  color: #253221;
+
+}
+
+
+
+.missions-header p {
+
+  max-width: 280px;
+
+
+
+  margin: 8px 0 0;
+
+
+
+  font-size: 14px;
+
+  line-height: 1.4;
+
+
+
+  color: #677261;
+
+}
+
+
+
+.missions-back {
+
+  flex: 0 0 auto;
+
+
+
+  width: 44px;
+
+  height: 44px;
+
+
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+
+
+  border: none;
+
+  border-radius: 50%;
+
+
+
+  background: rgba(255, 255, 255, 0.85);
+
+  color: #263122;
+
+
+
+  font-size: 24px;
+
+
+
+  cursor: pointer;
+
+}
+
+
+
+
+
+/* Seções */
+
+
+
+.mission-section {
+
+  margin-bottom: 28px;
+
+}
+
+
+
+.mission-section h2 {
+
+  margin: 0 0 12px;
+
+
+
+  font-size: 18px;
+
+  font-weight: 800;
+
+
+
+  color: #34432f;
+
+}
+
+
+
+
+
+/* Cards */
+
+
+
+.mission-card {
+
+  padding: 18px;
+
+
+
+  border-radius: 22px;
+
+
+
+  background: rgba(255, 255, 255, 0.92);
+
+
+
+  box-shadow:
+
+    0 4px 16px
+
+    rgba(54, 71, 47, 0.08);
+
+}
+
+
+
+.mission-card-daily {
+
+  border:
+
+    2px solid
+
+    rgba(111, 143, 78, 0.25);
+
+}
+
+
+
+.mission-card-top {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+
+
+  gap: 12px;
+
+
+
+  margin-bottom: 14px;
+
+}
+
+
+
+.mission-card h3 {
+
+  margin: 0 0 8px;
+
+
+
+  font-size: 20px;
+
+  line-height: 1.15;
+
+
+
+  color: #273322;
+
+}
+
+
+
+.mission-card p {
+
+  margin: 0 0 16px;
+
+
+
+  font-size: 14px;
+
+  line-height: 1.45;
+
+
+
+  color: #657060;
+
+}
+
+
+
+
+
+/* Tags */
+
+
+
+.mission-tag,
+
+.mission-reward,
+
+.mission-status {
+
+  display: inline-flex;
+
+
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+}
+
+
+
+.mission-tag {
+
+  padding: 6px 10px;
+
+
+
+  border-radius: 999px;
+
+
+
+  background: #dfe9cf;
+
+  color: #536846;
+
+}
+
+
+
+.mission-reward {
+
+  padding: 6px 10px;
+
+
+
+  border-radius: 999px;
+
+
+
+  background: #fff1c7;
+
+  color: #856719;
+
+}
+
+
+
+.mission-status {
+
+  padding: 7px 10px;
+
+
+
+  border-radius: 10px;
+
+
+
+  background: #edf3e5;
+
+  color: #607551;
+
+
+
+  font-weight: 700;
+
+}
+
+
+
+
+
+/* Progresso */
+
+
+
+.mission-progress-info {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+
+
+  margin-bottom: 8px;
+
+
+
+  font-size: 13px;
+
+
+
+  color: #657060;
+
+}
+
+
+
+.mission-progress-info strong {
+
+  color: #34432f;
+
+}
+
+
+
+.mission-progress {
+
+  width: 100%;
+
+  height: 10px;
+
+
+
+  overflow: hidden;
+
+
+
+  border-radius: 999px;
+
+
+
+  background: #dfe5d7;
+
+}
+
+
+
+.mission-progress-fill {
+
+  height: 100%;
+
+
+
+  border-radius: inherit;
+
+
+
+  background: #738f54;
+
+
+
+  transition: width 0.3s ease;
+
+}
+
+
+/* =========================================
+
+   MISSÕES — OBJETIVOS
+
+   ========================================= */
+
+
+
+.mission-objectives {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+
+
+
+  margin-top: 18px;
+
+  margin-bottom: 18px;
+
+}
+
+
+
+.mission-objective {
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 9px;
+
+}
+
+
+
+.mission-objective > span {
+
+  flex: 0 0 auto;
+
+
+
+  font-size: 17px;
+
+  font-weight: 800;
+
+}
+
+
+
+.mission-objective p {
+
+  margin: 0;
+
+
+
+  font-size: 14px;
+
+  line-height: 1.4;
+
+}
+
+
+
+.mission-objective.completed {
+
+  opacity: 0.65;
+
+}
+
+
+
+.mission-objective.completed p {
+
+  text-decoration: line-through;
+
+}
+
+
+
+
+
+/* =========================================
+
+   RECOMPENSAS
+
+   ========================================= */
+
+
+
+.mission-rewards {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 12px;
+
+
+
+  margin-top: 18px;
+
+  padding-top: 15px;
+
+
+
+  border-top:
+
+    1px solid
+
+    rgba(0, 0, 0, 0.08);
+
+}
+
+
+
+.mission-rewards > span {
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+
+
+  opacity: 0.65;
+
+}
+
+
+
+.mission-reward-items {
+
+  display: flex;
+
+  gap: 10px;
+
+}
+
+
+
+.mission-reward-items strong {
+
+  font-size: 13px;
+
+}
+
+
+
+
+
+/* =========================================
+
+   CONCLUÍDA
+
+   ========================================= */
+
+
+
+.mission-card-completed {
+
+  opacity: 0.8;
+
+}
+
+
+
+.mission-completed-label {
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+}
+
+
+
+
+
+/* =========================================
+
+   BLOQUEADA
+
+   ========================================= */
+
+
+
+.mission-card-locked {
+
+  opacity: 0.55;
+
+}
+
+
+
+.mission-card-locked h3 {
+
+  margin-bottom: 8px;
+
+}
+
+
+
+.mission-card-future {
+
+  opacity: 0.45;
+
+}
+
+
+
+
+
+/* =========================================
+
+   MENU CONCLUÍDAS
+
+   ========================================= */
+
+
+
+.missions-completed-section {
+
+  padding-bottom: 40px;
+
+}
+
+
+
+.missions-completed-toggle {
+
+  width: 100%;
+
+
+
+  display: flex;
+
+  align-items: center;
+
+
+
+  gap: 10px;
+
+
+
+  padding: 16px 18px;
+
+
+
+  border: none;
+
+  border-radius: 16px;
+
+
+
+  background:
+
+    rgba(255, 255, 255, 0.7);
+
+
+
+  font: inherit;
+
+  text-align: left;
+
+
+
+  cursor: pointer;
+
+}
+
+
+
+.missions-completed-toggle > span:first-child {
+
+  flex: 1;
+
+
+
+  font-weight: 800;
+
+}
+
+
+
+.missions-completed-toggle strong {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+
+
+  min-width: 26px;
+
+  height: 26px;
+
+
+
+  padding: 0 7px;
+
+
+
+  border-radius: 999px;
+
+
+
+  background:
+
+    rgba(0, 0, 0, 0.08);
+
+
+
+  font-size: 12px;
+
+}
+
+
+
+.missions-toggle-arrow {
+
+  font-size: 18px;
+
+
+
+  transition:
+
+    transform 0.2s ease;
+
+}
+
+
+
+.missions-toggle-arrow.open {
+
+  transform:
+
+    rotate(180deg);
+
+}
+
+
+
+.missions-completed-list {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 14px;
+
+
+
+  margin-top: 14px;
+
+}
+
+
+
+/* =========================================
+
+   NOTIFICAÇÃO DE MISSÃO
+
+   ========================================= */
+
+
+
+.mission-toast {
+
+  position: fixed;
+
+
+
+  top: calc(
+
+    env(safe-area-inset-top) + 18px
+
+  );
+
+
+
+  left: 50%;
+
+
+
+  z-index: 9999;
+
+
+
+  width:
+
+    min(
+
+      calc(100vw - 32px),
+
+      390px
+
+    );
+
+
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+
+
+  padding: 14px 16px;
+
+
+
+  border-radius: 18px;
+
+
+
+  background:
+
+    rgba(255, 255, 255, 0.96);
+
+
+
+  box-shadow:
+
+    0 8px 28px
+
+    rgba(0, 0, 0, 0.18);
+
+
+
+  transform:
+
+    translateX(-50%);
+
+
+
+  animation:
+
+    mission-toast-in
+
+    0.35s
+
+    cubic-bezier(
+
+      0.2,
+
+      0.8,
+
+      0.2,
+
+      1
+
+    )
+
+    forwards;
+
+}
+
+
+
+@keyframes mission-toast-in {
+
+  from {
+
+    opacity: 0;
+
+
+
+    transform:
+
+      translate(
+
+        -50%,
+
+        -24px
+
+      );
+
+  }
+
+
+
+  to {
+
+    opacity: 1;
+
+
+
+    transform:
+
+      translate(
+
+        -50%,
+
+        0
+
+      );
+
+  }
+
+}
+
+
+
+.mission-toast-leaving {
+
+  animation:
+
+    mission-toast-out
+
+    0.45s
+
+    ease
+
+    forwards;
+
+}
+
+
+
+
+
+@keyframes mission-toast-out {
+
+  from {
+
+    opacity: 1;
+
+
+
+    transform:
+
+      translate(
+
+        -50%,
+
+        0
+
+      );
+
+  }
+
+
+
+  to {
+
+    opacity: 0;
+
+
+
+    transform:
+
+      translate(
+
+        -50%,
+
+        -18px
+
+      );
+
+  }
+
+}
+
+
+
+.mission-toast-icon {
+
+  flex: 0 0 42px;
+
+
+
+  width: 42px;
+
+  height: 42px;
+
+
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+
+
+  border-radius: 50%;
+
+
+
+  background: #64764c;
+
+  color: #fff;
+
+
+
+  font-size: 20px;
+
+  font-weight: 900;
+
+}
+
+
+
+
+
+.mission-toast-content {
+
+  min-width: 0;
+
+
+
+  display: flex;
+
+  flex-direction: column;
+
+}
+
+
+
+
+
+.mission-toast-content > span {
+
+  margin-bottom: 2px;
+
+
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.08em;
+
+
+
+  opacity: 0.6;
+
+}
+
+
+
+
+
+.mission-toast-content strong {
+
+  font-size: 15px;
+
+}
+
+
+
+
+
+.mission-toast-content p {
+
+  margin: 3px 0 0;
+
+
+
+  font-size: 12px;
+
+  line-height: 1.35;
+
+
+
+  opacity: 0.72;
+
+}
+
+
+
+
+
+@keyframes mission-toast-in {
+
+  from {
+
+    opacity: 0;
+
+
+
+    transform:
+
+      translate(
+
+        -50%,
+
+        -16px
+
+      );
+
+  }
+
+
+
+  to {
+
+    opacity: 1;
+
+
+
+    transform:
+
+      translate(
+
+        -50%,
+
+        0
+
+      );
+
+  }
+
+}
+
+
+
+
+
+/* =========================================
+
+   BOLINHA DE NOVIDADE
+
+   ========================================= */
+
+
+
+.hud-missions-button {
+
+  position: relative;
+
+}
+
+
+
+
+
+.hud-notification-dot {
+
+  position: absolute;
+
+
+
+  top: 2px;
+
+  right: 2px;
+
+
+
+  width: 12px;
+
+  height: 12px;
+
+
+
+  border-radius: 50%;
+
+
+
+  background: #d94432;
+
+
+
+  border:
+
+    2px solid
+
+    #ffffff;
+
+
+
+  box-shadow:
+
+    0 2px 5px
+
+    rgba(0, 0, 0, 0.22);
+
+
+
+  pointer-events: none;
+
+}

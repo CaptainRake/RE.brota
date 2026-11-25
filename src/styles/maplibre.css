@@ -1,0 +1,81 @@
+/* =========================================
+
+   MAPLIBRE ATTRIBUTION
+
+   ========================================= */
+
+
+
+.maplibregl-ctrl-attrib {
+
+  font-size: 10px !important;
+
+}
+
+
+
+.maplibregl-ctrl-attrib.maplibregl-compact {
+
+  min-width: 30px !important;
+
+  width: 30px !important;
+
+  height: 30px !important;
+
+
+
+  padding: 0 !important;
+
+
+
+  overflow: hidden !important;
+
+
+
+  border-radius: 50% !important;
+
+
+
+  background:
+
+    rgba(255, 255, 255, 0.9) !important;
+
+}
+
+
+
+.maplibregl-ctrl-attrib-button {
+
+  width: 30px !important;
+
+  height: 30px !important;
+
+}
+
+
+
+.maplibregl-ctrl-bottom-right {
+
+  right:
+
+    calc(
+
+      8px +
+
+      env(safe-area-inset-right)
+
+    );
+
+
+
+  bottom:
+
+    calc(
+
+      8px +
+
+      env(safe-area-inset-bottom)
+
+    );
+
+}

@@ -5,7 +5,7 @@ import '@google/model-viewer';
 
 import 'leaflet/dist/leaflet.css';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import './styles/global.css';
+import './styles/index.css';
 
 import App from './App';
 

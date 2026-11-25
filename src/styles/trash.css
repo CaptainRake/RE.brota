@@ -1,0 +1,297 @@
+/* =========================================
+
+   POPUP DE RESÍDUOS
+
+   ========================================= */
+
+
+
+.trash-popup-overlay {
+
+  position: fixed;
+
+  inset: 0;
+
+
+
+  z-index: 3000;
+
+
+
+  display: flex;
+
+  align-items: flex-end;
+
+  justify-content: center;
+
+
+
+  padding:
+
+    18px
+
+    18px
+
+    calc(
+
+      18px +
+
+      env(safe-area-inset-bottom)
+
+    );
+
+
+
+  background:
+
+    rgba(0, 0, 0, 0.38);
+
+
+
+  backdrop-filter: blur(2px);
+
+  -webkit-backdrop-filter: blur(2px);
+
+}
+
+
+
+
+
+.trash-popup {
+
+  position: relative;
+
+
+
+  width: 100%;
+
+  max-width: 390px;
+
+
+
+  padding: 18px;
+
+
+
+  border-radius: 24px;
+
+
+
+  background: #f5f7ec;
+
+
+
+  box-shadow:
+
+    0 14px 40px
+
+    rgba(0, 0, 0, 0.24);
+
+}
+
+
+
+
+
+.trash-popup-close {
+
+  position: absolute;
+
+
+
+  top: 12px;
+
+  right: 12px;
+
+
+
+  z-index: 2;
+
+
+
+  width: 34px;
+
+  height: 34px;
+
+
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+
+
+  padding: 0;
+
+
+
+  border: none;
+
+  border-radius: 50%;
+
+
+
+  background:
+
+    rgba(0, 0, 0, 0.06);
+
+
+
+  color: #273322;
+
+
+
+  font-size: 22px;
+
+  line-height: 1;
+
+
+
+  cursor: pointer;
+
+}
+
+
+
+
+
+.trash-popup-category {
+
+  display: inline-flex;
+
+
+
+  padding: 6px 10px;
+
+
+
+  border-radius: 999px;
+
+
+
+  background: #dfe9cf;
+
+  color: #536846;
+
+
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.06em;
+
+}
+
+
+
+
+
+.trash-popup-model {
+
+  display: block;
+
+
+
+  width: 100%;
+
+  height: 190px;
+
+
+
+  margin: 8px 0 4px;
+
+
+
+  background: transparent;
+
+}
+
+
+
+
+
+.trash-popup h2 {
+
+  margin: 4px 0 8px;
+
+
+
+  color: #273322;
+
+
+
+  font-size: 22px;
+
+}
+
+
+
+
+
+.trash-popup p {
+
+  margin: 0 0 18px;
+
+
+
+  color: #657060;
+
+
+
+  font-size: 14px;
+
+  line-height: 1.45;
+
+}
+
+
+
+
+
+.trash-collect-button {
+
+  width: 100%;
+
+  min-height: 50px;
+
+
+
+  border: none;
+
+  border-radius: 999px;
+
+
+
+  background: #6f8f4e;
+
+  color: #ffffff;
+
+
+
+  font-size: 15px;
+
+  font-weight: 800;
+
+
+
+  cursor: pointer;
+
+}
+
+
+
+
+
+.trash-collect-button:active {
+
+  transform: scale(0.98);
+
+}

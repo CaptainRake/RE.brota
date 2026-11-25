@@ -47,13 +47,13 @@ export default function Enter() {
       <button
         className="login-hitbox login-hitbox-enter"
         aria-label="Entrar"
-        onClick={() => navigate('/login')}
+        onClick={() => navigate('')}
       />
 
       <button
         className="login-hitbox login-hitbox-register"
         aria-label="Criar conta"
-        onClick={() => navigate('/register')}
+        onClick={() => navigate('')}
       />
 
       <button

@@ -1,11 +1,20 @@
-import { useNavigate } from 'react-router-dom';
+import {
+  useNavigate,
+} from 'react-router-dom';
 
-import { backpacks } from '../data/backpacks';
-import { useOnboardingStore } from '../stores/onboardingStore';
+import {
+  backpacks,
+} from '../data/backpacks';
+
+import {
+  useOnboardingStore,
+} from '../stores/onboardingStore';
+
 
 export default function BackpackSelect() {
   const navigate =
     useNavigate();
+
 
   const selectedBackpack =
     useOnboardingStore(
@@ -13,11 +22,13 @@ export default function BackpackSelect() {
         state.selectedBackpack
     );
 
+
   const selectBackpack =
     useOnboardingStore(
       (state) =>
         state.selectBackpack
     );
+
 
   const startTutorial =
     useOnboardingStore(
@@ -25,93 +36,144 @@ export default function BackpackSelect() {
         state.startTutorial
     );
 
+
   const hasCompletedOnboarding =
     useOnboardingStore(
       (state) =>
         state.hasCompletedOnboarding
     );
 
+
   function handleContinue() {
     if (!selectedBackpack) {
       return;
     }
 
+
     if (!hasCompletedOnboarding) {
       startTutorial();
     }
 
+
     navigate('/home');
   }
+
 
   return (
     <main className="backpack-select-page">
 
-      <header className="backpack-select-header">
-        <h1>
-          Escolha sua mochila
-        </h1>
+      <div className="backpack-select-scroll">
 
-        <p>
-          Ela vai acompanhar você durante suas explorações.
-        </p>
-      </header>
+        <header className="backpack-select-header">
 
-      <div className="backpack-options">
-        {backpacks.map(
-          (backpack) => {
-            const isSelected =
-              selectedBackpack ===
-              backpack.id;
+          <span className="backpack-select-kicker">
+            EQUIPAMENTO
+          </span>
 
-            return (
-              <button
-                key={backpack.id}
-                type="button"
-                className={
-                  `backpack-option ${
-                    isSelected
-                      ? 'selected'
-                      : ''
-                  }`
-                }
-                onClick={() =>
-                  selectBackpack(
+
+          <h1>
+            Escolha sua mochila
+          </h1>
+
+
+          <p>
+            Ela vai acompanhar você durante suas explorações.
+          </p>
+
+        </header>
+
+
+        <section className="backpack-options">
+
+          {backpacks.map(
+            (backpack) => {
+
+              const isSelected =
+                selectedBackpack ===
+                backpack.id;
+
+
+              return (
+                <button
+                  key={
                     backpack.id
-                  )
-                }
-              >
-                <img
-                  src={
-                    `${import.meta.env.BASE_URL}ui/hud/${backpack.icon}`
                   }
-                  alt={
-                    backpack.name
-                  }
-                />
 
-                <span>
-                  {backpack.name}
-                </span>
-              </button>
-            );
-          }
-        )}
+                  type="button"
+
+                  className={
+                    `backpack-option ${
+                      isSelected
+                        ? 'selected'
+                        : ''
+                    }`
+                  }
+
+                  onClick={() =>
+                    selectBackpack(
+                      backpack.id
+                    )
+                  }
+
+                  aria-label={
+                    `Selecionar mochila ${backpack.name}`
+                  }
+
+                  aria-pressed={
+                    isSelected
+                  }
+                >
+
+                  <div className="backpack-option-visual">
+
+                    <img
+                      src={
+                        `${import.meta.env.BASE_URL}ui/hud/${backpack.icon}`
+                      }
+
+                      alt=""
+                    />
+
+                  </div>
+
+
+                  {isSelected && (
+
+                    <span className="backpack-option-check">
+                      ✓
+                    </span>
+
+                  )}
+
+                </button>
+              );
+            }
+          )}
+
+        </section>
+
       </div>
 
-      <div className="backpack-select-actions">
+
+      <footer className="backpack-select-actions">
+
         <button
           type="button"
+
           className="backpack-continue"
+
           disabled={
             !selectedBackpack
           }
+
           onClick={
             handleContinue
           }
         >
           Continuar
         </button>
-      </div>
+
+      </footer>
 
     </main>
   );

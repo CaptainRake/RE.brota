@@ -1401,15 +1401,6 @@ export default function GameMap3D() {
     */
 
     
-    map.on(
-      'zoom',
-      atualizarPerspectiva
-    );
-
-
-    atualizarPerspectiva();
-
-
     /*
       =========================================================
       STYLE

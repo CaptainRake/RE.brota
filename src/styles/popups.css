@@ -1,0 +1,247 @@
+
+/* =========================================
+   RE:BROTA — POPUPS
+   ========================================= */
+
+:root {
+  --popup-cream: #F5EBDD;
+  --popup-brown: #5B3A1C;
+  --popup-border: #8B5F3C;
+  --popup-green: #446342;
+  --popup-orange: #E19F66;
+  --popup-black: #190D00;
+}
+
+/* =========================================
+   1. NOTIFICAÇÕES DE MISSÕES
+   ========================================= */
+
+.mission-toast {
+  gap: 12px;
+  padding: 14px 16px;
+
+  border: 2px solid var(--popup-border);
+  border-radius: 16px;
+
+  background: var(--popup-cream);
+  color: var(--popup-brown);
+
+  box-shadow: none;
+
+  font-family: var(--font-body, 'Montserrat', sans-serif);
+}
+
+.mission-toast-icon {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+
+  border-radius: 12px;
+  background: var(--popup-green);
+  color: var(--popup-cream);
+
+  font-family: var(--font-title, 'Fredoka', sans-serif);
+}
+
+.mission-toast-content > span {
+  color: var(--popup-border);
+  opacity: 1;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.mission-toast-content strong {
+  color: var(--popup-brown);
+  font-family: var(--font-title, 'Fredoka', sans-serif);
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.mission-toast-content p {
+  margin-top: 4px;
+  color: var(--popup-brown);
+  opacity: 0.85;
+  font-size: 12px;
+}
+
+/* =========================================
+   2. POPUPS DOS ANIMAIS — MAPLIBRE
+   ========================================= */
+
+.maplibregl-popup {
+  z-index: 100;
+  max-width: min(300px, calc(100vw - 40px)) !important;
+  font-family: var(--font-body, 'Montserrat', sans-serif);
+}
+
+.maplibregl-popup-content {
+  padding: 20px 16px 16px;
+
+  border: 2px solid var(--popup-border);
+  border-radius: 16px;
+
+  background: var(--popup-cream);
+  color: var(--popup-brown);
+
+  box-shadow: none;
+  text-align: left;
+}
+
+.maplibregl-popup-content strong {
+  display: block;
+  padding-right: 18px;
+
+  font-family: var(--font-title, 'Fredoka', sans-serif);
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--popup-brown);
+}
+
+.maplibregl-popup-content p {
+  margin: 10px 0 14px;
+
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--popup-brown);
+}
+
+.maplibregl-popup-content button:not(.maplibregl-popup-close-button) {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+
+  padding: 10px 14px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: var(--popup-green);
+  color: #FFFFFF;
+
+  font-family: var(--font-title, 'Fredoka', sans-serif);
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.maplibregl-popup-close-button {
+  top: 6px;
+  right: 8px;
+
+  width: 28px;
+  height: 28px;
+
+  border-radius: 50%;
+  background: transparent;
+  color: var(--popup-brown);
+
+  font-size: 22px;
+}
+
+.maplibregl-popup-tip {
+  border-top-color: var(--popup-cream);
+  border-bottom-color: var(--popup-cream);
+}
+
+/* =========================================
+   3. POPUP DOS RESÍDUOS
+   ========================================= */
+
+.trash-popup-overlay {
+  background: rgba(25, 13, 0, 0.48);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.trash-popup {
+  width: 100%;
+  max-width: 390px;
+  max-height: calc(100dvh - 44px);
+
+  padding: 20px;
+  overflow-y: auto;
+
+  border: 2px solid var(--popup-border);
+  border-radius: 20px;
+
+  background: var(--popup-cream);
+  color: var(--popup-brown);
+
+  box-shadow: none;
+  font-family: var(--font-body, 'Montserrat', sans-serif);
+}
+
+.trash-popup-close {
+  top: 12px;
+  right: 12px;
+
+  width: 36px;
+  height: 36px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: transparent;
+  color: var(--popup-brown);
+
+  font-size: 26px;
+}
+
+.trash-popup-category {
+  padding: 6px 10px;
+  border-radius: 8px;
+
+  background: #D9E0CE;
+  color: var(--popup-green);
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.trash-popup-model {
+  height: 190px;
+  background: transparent;
+}
+
+.trash-popup h2 {
+  font-family: var(--font-title, 'Fredoka', sans-serif);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--popup-brown);
+}
+
+.trash-popup p {
+  color: var(--popup-brown);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.trash-collect-button {
+  width: 100%;
+  min-height: 48px;
+
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+
+  background: var(--popup-green);
+  color: #FFFFFF;
+
+  font-family: var(--font-title, 'Fredoka', sans-serif);
+  font-size: 15px;
+  font-weight: 600;
+
+  box-shadow: none;
+  cursor: pointer;
+}
+
+/* =========================================
+   INTERAÇÕES
+   ========================================= */
+
+.trash-collect-button:active,
+.maplibregl-popup-content button:not(.maplibregl-popup-close-button):active {
+  transform: scale(0.98);
+}

@@ -94,13 +94,15 @@ export default function Challenges() {
       <header className="missions-header">
 
         <button
+          type="button"
           className="missions-back"
-          onClick={() =>
-            navigate('/home')
-          }
+          onClick={() => navigate('/home')}
           aria-label="Voltar"
         >
-          ←
+          <img
+            src={`${import.meta.env.BASE_URL}ui/common/back.svg`}
+            alt=""
+          />
         </button>
 
 

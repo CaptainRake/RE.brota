@@ -1099,10 +1099,12 @@ export default function GameMap3D() {
 
         zoom: 19,
 
-        minZoom: 17,
-        maxZoom: 21,
+        minZoom: 18,
+        maxZoom: 20,
 
         pitch: 60,
+        minPitch: 60,
+        maxPitch: 60,
 
         bearing: 0,
 
@@ -1291,59 +1293,114 @@ export default function GameMap3D() {
       CONTROLES
     */
 
+    // O jogador permanece centralizado.
     map.dragPan.disable();
 
+    // Rotação no desktop: botão direito + arrastar.
     map.dragRotate.enable();
 
+    // Zoom pelo mouse.
     map.scrollZoom.enable({
       around: 'center',
     });
 
+    // Zoom com dois dedos no celular.
     map.touchZoomRotate.enable({
       around: 'center',
     });
 
-    map.touchZoomRotate
-      .enableRotation();
+    map.touchZoomRotate.enableRotation();
 
+    // Evita alterar a inclinação da câmera.
     map.touchPitch.disable();
+
+    // Zoom mais suave no celular.
+    map.touchZoomRotate.setZoomRate(0.5);
+
+    // Garante os limites globais do zoom.
+    map.setMinZoom(18);
+    map.setMaxZoom(20);
+
+    /*
+  =========================================
+  ROTAÇÃO DA CÂMERA COM UM DEDO
+  =========================================
+    */
+
+    const canvas = map.getCanvas();
+
+    let lastTouchX = null;
+    let isRotating = false;
+
+    function handleTouchStart(event) {
+      if (event.touches.length !== 1) {
+        isRotating = false;
+        lastTouchX = null;
+        return;
+      }
+
+      lastTouchX = event.touches[0].clientX;
+      isRotating = true;
+    }
+
+    function handleTouchMove(event) {
+      // Dois dedos continuam reservados para zoom.
+      if (event.touches.length !== 1) {
+        isRotating = false;
+        lastTouchX = null;
+        return;
+      }
+
+      if (!isRotating || lastTouchX === null) {
+        return;
+      }
+
+      const currentX = event.touches[0].clientX;
+      const deltaX = currentX - lastTouchX;
+
+      // Sensibilidade da rotação.
+      const rotationSpeed = 0.3;
+
+      map.setBearing(
+        map.getBearing() - deltaX * rotationSpeed
+      );
+
+      lastTouchX = currentX;
+    }
+
+    function handleTouchEnd() {
+      isRotating = false;
+      lastTouchX = null;
+    }
+
+    canvas.addEventListener(
+      'touchstart',
+      handleTouchStart,
+      { passive: true }
+    );
+
+    canvas.addEventListener(
+      'touchmove',
+      handleTouchMove,
+      { passive: true }
+    );
+
+    canvas.addEventListener(
+      'touchend',
+      handleTouchEnd
+    );
+
+    canvas.addEventListener(
+      'touchcancel',
+      handleTouchEnd
+    );
 
 
     /*
       PITCH
     */
 
-    function atualizarPerspectiva() {
-      const zoom =
-        map.getZoom();
-
-
-      const progress =
-        (
-          zoom - 17
-        ) /
-        4;
-
-
-      const pitch =
-        35 +
-        progress *
-          35;
-
-
-      map.setPitch(
-        Math.max(
-          35,
-
-          Math.min(
-            70,
-            pitch
-          )
-        )
-      );
-    }
-
-
+    
     map.on(
       'zoom',
       atualizarPerspectiva
@@ -2572,6 +2629,26 @@ export default function GameMap3D() {
       map.off(
         'click',
         handleTrashClick
+      );
+
+      canvas.removeEventListener(
+        'touchstart',
+        handleTouchStart
+      );
+
+      canvas.removeEventListener(
+        'touchmove',
+        handleTouchMove
+      );
+
+      canvas.removeEventListener(
+        'touchend',
+        handleTouchEnd
+      );
+
+      canvas.removeEventListener(
+        'touchcancel',
+        handleTouchEnd
       );
 
 

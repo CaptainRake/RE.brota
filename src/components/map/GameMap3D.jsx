@@ -41,6 +41,10 @@ import {
   useTrashStore,
 } from '../../stores/trashStore';
 
+import {
+  createMapCharacterController,
+} from '../characters/mapCharacterController';
+
 
 /*
   =========================================================
@@ -1472,12 +1476,19 @@ export default function GameMap3D() {
 
           scale:
             playerMercator
-              .meterInMercatorCoordinateUnits(),
+              .meterInMercatorCoordinateUnits() * 10,
         };
 
 
-        playerTransformRef.current =
-          playerTransform;
+        playerTransformRef.current = playerTransform;
+
+        playerTransform.targetHeading = 0;
+
+        playerTransform.targetX = playerTransform.translateX;
+
+        playerTransform.targetY = playerTransform.translateY;
+
+        playerTransform.targetZ = playerTransform.translateZ;
 
 
         const playerLayer = {
@@ -1535,17 +1546,14 @@ export default function GameMap3D() {
             );
 
 
-            new GLTFLoader()
-              .load(
-                `${import.meta.env.BASE_URL}models/gnome.glb`,
+            this.characterRoot = new THREE.Group();
 
-                (gltf) => {
-                  this.scene.add(
-                    gltf.scene
-                  );
+            this.scene.add(this.characterRoot);
 
-                  map.triggerRepaint();
-                }
+            this.characterController =
+              createMapCharacterController(
+                this.characterRoot,
+                map
               );
 
 
@@ -1573,8 +1581,45 @@ export default function GameMap3D() {
             gl,
             args
           ) {
+            this.characterController?.update();
+
             const transform =
               playerTransform;
+
+            // Suaviza a movimentação do personagem.
+            const smoothing = 0.12;
+
+            transform.translateX = THREE.MathUtils.lerp(
+              transform.translateX,
+              transform.targetX,
+              smoothing
+            );
+
+            transform.translateY = THREE.MathUtils.lerp(
+              transform.translateY,
+              transform.targetY,
+              smoothing
+            );
+
+            transform.translateZ = THREE.MathUtils.lerp(
+              transform.translateZ,
+              transform.targetZ,
+              smoothing
+            );
+
+            // Rotação suave do personagem.
+            if (this.characterRoot) {
+              const current = this.characterRoot.rotation.y;
+              const target = transform.targetHeading;
+
+              // Menor diferença angular, evitando uma volta completa.
+              const difference = Math.atan2(
+                Math.sin(target - current),
+                Math.cos(target - current)
+              );
+
+              this.characterRoot.rotation.y += difference * 0.12;
+            }
 
 
             const m =
@@ -1638,8 +1683,8 @@ export default function GameMap3D() {
 
 
           onRemove() {
-            this.renderer
-              ?.dispose();
+            this.characterController?.dispose();
+            this.renderer?.dispose();
           },
         };
 
@@ -2661,29 +2706,30 @@ export default function GameMap3D() {
           );
 
 
-      playerTransformRef
-        .current
-        .translateX =
-        mercator.x;
+      const transform = playerTransformRef.current;
+
+      // Diferença entre o destino anterior e a nova posição.
+      const dx = mercator.x - transform.targetX;
+      const dy = mercator.y - transform.targetY;
+
+      // Distância do deslocamento, em metros.
+      const distance = Math.hypot(dx, dy) /
+      mercator.meterInMercatorCoordinateUnits();
+
+      // Só muda a direção se houver movimento significativo.
+      if (distance >= 0.7 && distance <= 100) {
+      transform.targetHeading =
+        -Math.atan2(dx, -dy);
+      }
+
+      // Atualiza o destino da caminhada.
+      transform.targetX = mercator.x;
+      transform.targetY = mercator.y;
+      transform.targetZ = mercator.z;
 
 
-      playerTransformRef
-        .current
-        .translateY =
-        mercator.y;
-
-
-      playerTransformRef
-        .current
-        .translateZ =
-        mercator.z;
-
-
-      playerTransformRef
-        .current
-        .scale =
-        mercator
-          .meterInMercatorCoordinateUnits();
+      playerTransformRef.current.scale =
+        mercator.meterInMercatorCoordinateUnits() * 10;
     }
 
 

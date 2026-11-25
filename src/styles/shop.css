@@ -1,598 +1,122 @@
-/* =========================================================
-   RE:BROTA — LOJA
-   ========================================================= */
-
+/* RE:BROTA — Loja de personagens, carrossel de GLBs animados */
 .shop-page {
   position: fixed;
   inset: 0;
-
-  width: 100%;
   height: 100dvh;
-
   overflow-y: auto;
-  overflow-x: hidden;
-
-  padding:
-    calc(env(safe-area-inset-top) + 24px)
-    20px
-    calc(env(safe-area-inset-bottom) + 40px);
-
-  background:
-    #efe3d2;
-
-  color:
-    var(--color-black);
-
-  scrollbar-width:
-    none;
+  overscroll-behavior-y: contain;
+  scrollbar-width: none;
+  background: #efe3d2;
+  color: var(--color-black);
+  padding: calc(env(safe-area-inset-top) + 24px) 20px calc(env(safe-area-inset-bottom) + 32px);
 }
+.shop-page::-webkit-scrollbar { display: none; }
+.shop-header { display: grid; grid-template-columns: 54px minmax(0, 1fr) auto; align-items: center; gap: 12px; margin-bottom: 24px; }
+.shop-back { width: 54px; height: 54px; border: 0; padding: 0; background: transparent; cursor: pointer; }
+.shop-back img { width: 100%; height: 100%; object-fit: contain; }
+.shop-header-copy { min-width: 0; }
+.shop-header-copy > span, .shop-category-header > span { color: var(--color-brown); font-size: 9px; font-weight: 700; letter-spacing: .1em; }
+.shop-header h1 { margin: 2px 0 0; font: 700 23px/1 var(--font-title); color: var(--color-brown-dark); }
+.shop-balance { display: flex; gap: 5px; align-items: center; justify-content: center; min-height: 42px; min-width: 66px; padding: 0 10px; background: #d7dfc8; color: var(--color-green-1); border: 2px solid var(--color-green-1); border-radius: 10px; box-shadow: 3px 4px 0 var(--color-green-1); }
+.shop-balance strong { font: 700 16px var(--font-title); }
+.shop-content { max-width: 440px; margin: 0 auto; display: flex; align-items: center; flex-direction: column; }
+.shop-category-header { align-self: stretch; margin-bottom: 8px; }
+.shop-category-header h2 { margin: 3px 0 0; color: var(--color-brown-dark); font: 700 21px var(--font-title); }
 
-.shop-page::-webkit-scrollbar {
-  display:
-    none;
+/* Carrossel circular: TODOS os personagens continuam montados.
+   Assim a animação CSS desliza a mesma instância do GLB, sem corte. */
+.shop-stage {
+  position: relative;
+  width: 100%;
+  height: min(42dvh, 350px);
+  min-height: 220px;
+  overflow: visible;
+  isolation: isolate;
+  background: transparent;
 }
-
-
-/* =========================================================
-   HEADER
-   ========================================================= */
-
-.shop-header {
-  display: grid;
-
-  grid-template-columns:
-    54px
-    1fr
-    auto;
-
-  gap:
-    12px;
-
-  align-items:
-    center;
-
-  margin-bottom:
-    32px;
-}
-
-
-.shop-back {
-  width:
-    54px;
-
-  height:
-    54px;
-
-  padding:
-    0;
-
-  border:
-    none;
-
-  background:
-    transparent;
-
-  cursor:
-    pointer;
-}
-
-
-.shop-back img {
-  width:
-    100%;
-
-  height:
-    100%;
-
-  object-fit:
-    contain;
-}
-
-
-.shop-header-copy {
-  min-width:
-    0;
-}
-
-
-.shop-header-copy > span {
-  display:
-    block;
-
-  margin-bottom:
-    2px;
-
-  color:
-    var(--color-brown);
-
-  font-size:
-    8px;
-
-  font-weight:
-    700;
-
-  letter-spacing:
-    0.12em;
-}
-
-
-.shop-header h1 {
-  margin:
-    0;
-
-  color:
-    var(--color-brown-dark);
-
-  font-family:
-    var(--font-title);
-
-  font-size:
-    23px;
-
-  line-height:
-    1;
-}
-
-
-/* =========================================================
-   SALDO
-   ========================================================= */
-
-.shop-balance {
-  min-width:
-    62px;
-
-  min-height:
-    42px;
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    center;
-
-  gap:
-    5px;
-
-  padding:
-    0 10px;
-
-  border:
-    2px solid
-    var(--color-green-1);
-
-  border-radius:
-    10px;
-
-  background:
-    #d7dfc8;
-
-  color:
-    var(--color-green-1);
-
-  box-shadow:
-    3px 4px 0
-    var(--color-green-1);
-}
-
-
-.shop-balance strong {
-  font-family:
-    var(--font-title);
-
-  font-size:
-    15px;
-}
-
-
-/* =========================================================
-   CONTEÚDO
-   ========================================================= */
-
-.shop-content {
-  display:
-    flex;
-
-  flex-direction:
-    column;
-
-  gap:
-    40px;
-}
-
-
-/* =========================================================
-   CATEGORIA
-   ========================================================= */
-
-.shop-category {
-  width:
-    100%;
-}
-
-
-.shop-category-header {
-  margin-bottom:
-    16px;
-}
-
-
-.shop-category-header span {
-  display:
-    block;
-
-  margin-bottom:
-    2px;
-
-  color:
-    var(--color-brown);
-
-  font-size:
-    8px;
-
-  font-weight:
-    700;
-
-  letter-spacing:
-    0.12em;
-}
-
-
-.shop-category-header h2 {
-  margin:
-    0;
-
-  color:
-    var(--color-brown-dark);
-
-  font-family:
-    var(--font-title);
-
-  font-size:
-    22px;
-}
-
-
-/* =========================================================
-   CARROSSEL
-   ========================================================= */
-
-.shop-carousel {
-  position:
-    relative;
-
-  width:
-    100%;
-
-  height:
-    260px;
-
-  overflow:
-    hidden;
-}
-
-
-.shop-character {
-  position:
-    absolute;
-
-  left:
-    50%;
-
-  bottom:
-    0;
-
-  width:
-    170px;
-
-  height:
-    230px;
-
-  padding:
-    0;
-
-  border:
-    none;
-
-  background:
-    transparent;
-
-  cursor:
-    pointer;
-
-  transform-origin:
-    center bottom;
-
+.shop-character-slide {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 64%;
+  height: 100%;
+  opacity: 0;
+  filter: saturate(.55);
+  pointer-events: none;
+  z-index: 0;
+  transform-origin: center bottom;
+  transform: translateX(-50%) scale(.5);
   transition:
-    transform
-    0.3s ease,
-    opacity
-    0.3s ease,
-    filter
-    0.3s ease;
+    transform 560ms cubic-bezier(.22, 1, .36, 1),
+    opacity 480ms ease,
+    filter 560ms ease;
+  will-change: transform, opacity;
+}
+.shop-character-slide[data-offset="-1"] {
+  transform: translateX(calc(-50% - 68%)) scale(.72);
+  opacity: .38;
+  z-index: 2;
+  pointer-events: auto;
+}
+.shop-character-slide[data-offset="1"] {
+  transform: translateX(calc(-50% + 68%)) scale(.72);
+  opacity: .38;
+  z-index: 2;
+  pointer-events: auto;
+}
+.shop-character-slide[data-offset="-2"] {
+  transform: translateX(calc(-50% - 148%)) scale(.53);
+}
+.shop-character-slide[data-offset="2"] {
+  transform: translateX(calc(-50% + 148%)) scale(.53);
+}
+.shop-character-slide[data-offset="-3"] {
+  transform: translateX(calc(-50% - 215%)) scale(.45);
+}
+.shop-character-slide[data-offset="3"] {
+  transform: translateX(calc(-50% + 215%)) scale(.45);
+}
+.shop-character-slide.is-center {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+  filter: none;
+  z-index: 3;
+  pointer-events: auto;
+}
+.shop-character-model {
+  display: block;
+  width: 100%;
+  height: 100%;
+  --poster-color: transparent;
+  pointer-events: none;
+}
+.shop-character-slide.is-center .shop-character-model { pointer-events: auto; }
+.shop-character-hitarea {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+@media (prefers-reduced-motion: reduce) {
+  .shop-character-slide { transition-duration: 0.01ms; }
 }
 
-
-.shop-character img {
-  width:
-    100%;
-
-  height:
-    100%;
-
-  object-fit:
-    contain;
-
-  pointer-events:
-    none;
-}
-
-
-/* ativo */
-
-.shop-character[data-offset="0"] {
-  z-index:
-    3;
-
-  opacity:
-    1;
-
-  transform:
-    translateX(-50%)
-    scale(1);
-}
-
-
-/* anterior */
-
-.shop-character[data-offset="-1"] {
-  z-index:
-    2;
-
-  opacity:
-    0.55;
-
-  filter:
-    saturate(0.75);
-
-  transform:
-    translateX(
-      calc(-50% - 115px)
-    )
-    scale(0.7);
-}
-
-
-/* próximo */
-
-.shop-character[data-offset="1"] {
-  z-index:
-    2;
-
-  opacity:
-    0.55;
-
-  filter:
-    saturate(0.75);
-
-  transform:
-    translateX(
-      calc(-50% + 115px)
-    )
-    scale(0.7);
-}
-
-
-/* demais */
-
-.shop-character[data-offset="2"] {
-  opacity:
-    0;
-
-  pointer-events:
-    none;
-
-  transform:
-    translateX(-50%)
-    scale(0.5);
-}
-
-
-/* =========================================================
-   INFORMAÇÃO
-   ========================================================= */
-
-.shop-item-info {
-  display:
-    flex;
-
-  flex-direction:
-    column;
-
-  align-items:
-    center;
-
-  margin-top:
-    10px;
-
-  text-align:
-    center;
-}
-
-
-.shop-item-info strong {
-  color:
-    var(--color-brown-dark);
-
-  font-family:
-    var(--font-title);
-
-  font-size:
-    18px;
-}
-
-
-.shop-item-info span {
-  margin-top:
-    3px;
-
-  color:
-    var(--color-green-1);
-
-  font-family:
-    var(--font-title);
-
-  font-size:
-    14px;
-
-  font-weight:
-    700;
-}
-
-
-/* =========================================================
-   CONTROLES
-   ========================================================= */
-
-.shop-carousel-controls {
-  display:
-    grid;
-
-  grid-template-columns:
-    44px
-    1fr
-    44px;
-
-  gap:
-    12px;
-
-  align-items:
-    center;
-
-  max-width:
-    230px;
-
-  margin:
-    16px auto
-    0;
-}
-
-
-.shop-carousel-controls > button {
-  width:
-    44px;
-
-  height:
-    44px;
-
-  padding:
-    0;
-
-  border:
-    2px solid
-    var(--color-brown-dark);
-
-  border-radius:
-    50%;
-
-  background:
-    var(--color-orange);
-
-  color:
-    var(--color-black);
-
-  font-family:
-    var(--font-title);
-
-  font-size:
-    28px;
-
-  line-height:
-    1;
-
-  cursor:
-    pointer;
-
-  box-shadow:
-    3px 4px 0
-    var(--color-brown-dark);
-}
-
-
-.shop-carousel-controls > button:active {
-  transform:
-    translateY(2px);
-
-  box-shadow:
-    1px 2px 0
-    var(--color-brown-dark);
-}
-
-
-/* =========================================================
-   DOTS
-   ========================================================= */
-
-.shop-carousel-dots {
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    center;
-
-  gap:
-    7px;
-}
-
-
-.shop-carousel-dots button {
-  width:
-    7px;
-
-  height:
-    7px;
-
-  padding:
-    0;
-
-  border:
-    none;
-
-  border-radius:
-    50%;
-
-  background:
-    rgba(
-      91,
-      58,
-      28,
-      0.25
-    );
-
-  cursor:
-    pointer;
-
-  transition:
-    width
-    0.2s ease,
-    background
-    0.2s ease;
-}
-
-
-.shop-carousel-dots button.active {
-  width:
-    18px;
-
-  border-radius:
-    999px;
-
-  background:
-    var(--color-brown);
+.shop-item-info { text-align: center; margin-top: 4px; }
+.shop-item-info h3 { margin: 0; font: 700 23px var(--font-title); color: var(--color-brown-dark); }
+.shop-item-info span { display: block; margin-top: 3px; font: 700 13px var(--font-title); color: var(--color-green-1); }
+.shop-carousel-controls { display: flex; align-items: center; justify-content: space-between; gap: 24px; width: 210px; margin: 14px auto 20px; }
+.shop-carousel-controls button { display: grid; place-items: center; height: 42px; width: 42px; padding: 0; border: 2px solid var(--color-brown-dark); border-radius: 50%; background: var(--color-orange); color: var(--color-black); font: 700 29px var(--font-title); box-shadow: 3px 4px 0 var(--color-brown-dark); cursor: pointer; }
+.shop-page-number { font: 700 13px var(--font-body); color: var(--color-brown-dark); }
+.shop-action { width: 100%; min-height: 52px; border: 3px solid var(--color-green-1); border-radius: 8px; background: var(--color-green-4); color: #f6ecdc; font: 700 16px var(--font-title); box-shadow: 5px 6px 0 var(--color-green-1); cursor: pointer; }
+.shop-action:disabled { background: var(--color-cream); color: var(--color-brown-dark); border-color: var(--color-brown-dark); box-shadow: 5px 6px 0 var(--color-brown-dark); cursor: default; }
+.shop-feedback { min-height: 30px; margin: 13px 0 0; color: var(--color-brown-dark); text-align: center; font: 500 12px/1.4 var(--font-body); }
+@media (max-height: 700px) {
+  .shop-page { padding-top: calc(env(safe-area-inset-top) + 16px); }
+  .shop-header { margin-bottom: 16px; }
+  .shop-stage { height: 34dvh; min-height: 170px; }
+  .shop-carousel-controls { margin: 10px auto 15px; }
 }

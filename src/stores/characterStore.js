@@ -8,8 +8,8 @@ import { useProgressStore } from './progressStore';
 export const useCharacterStore = create(
   persist(
     (set, get) => ({
-      equippedId: 'explorador',
-      unlockedIds: ['explorador'],
+      equippedId: 'pesquisador',
+      unlockedIds: ['pesquisador'],
 
       equipCharacter: (id) => {
         if (!get().unlockedIds.includes(id)) return false;

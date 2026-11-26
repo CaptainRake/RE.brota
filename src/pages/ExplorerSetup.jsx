@@ -78,7 +78,7 @@ export default function ExplorerSetup() {
 
 
           <p>
-            Esse nome aparecerá no seu crachá de explorador.
+            Esse nome aparecerá no seu crachá.
           </p>
 
         </header>
@@ -96,7 +96,7 @@ export default function ExplorerSetup() {
             <label
               htmlFor="explorer-name"
             >
-              Nome do explorador
+              Nome do jogador
             </label>
 
 

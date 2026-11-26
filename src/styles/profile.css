@@ -1646,3 +1646,46 @@
   }
 
 }
+
+/* RETRATO DO PERSONAGEM EQUIPADO */
+
+.researcher-avatar {
+  position: relative;
+}
+
+.researcher-avatar .researcher-portrait {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+  object-position: center;
+
+  border-radius: inherit;
+
+  user-select: none;
+  -webkit-user-select: none;
+
+  pointer-events: none;
+}
+
+.researcher-avatar {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  overflow: visible;
+}
+
+.researcher-avatar .researcher-portrait {
+  width: 100%;
+  height: 100%;
+
+  background: transparent;
+  border: none;
+
+  object-fit: contain;
+  object-position: center bottom;
+
+  border-radius: 0 0 50% 50%;
+}

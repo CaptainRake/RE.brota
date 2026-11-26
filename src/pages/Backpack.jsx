@@ -90,7 +90,7 @@ export default function Backpack() {
         type="button"
         className="backpack-badges backpack-item"
         onClick={() =>
-          navigate('')
+          navigate('/badges')
         }
         aria-label="Abrir distintivos"
       >

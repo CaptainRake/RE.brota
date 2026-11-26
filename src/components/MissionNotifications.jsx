@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState,} from 'react';
-import { useProgressStore, MAIN_MISSIONS, DAILY_MISSIONS,} from '../stores/progressStore';
+import { useProgressStore, getActiveMissions, isMissionReady,} from '../stores/progressStore';
 import { useNavigate } from 'react-router-dom';
 
 export default function MissionNotifications() {
@@ -16,86 +16,13 @@ export default function MissionNotifications() {
   const [dragging, setDragging] = useState(false);
 
   const [dismissing, setDismissing] = useState(false);
+  
+  const [queue, setQueue,] = useState([]);
 
-  const currentMissionId =
-    useProgressStore(
-      (state) =>
-        state.currentMissionId
-    );
+  const [visible, setVisible,] = useState(null);
 
-  const completedMissions =
-    useProgressStore(
-      (state) =>
-        state.completedMissions
-    );
-
-  const foundAnimals =
-    useProgressStore(
-      (state) =>
-        state.foundAnimals
-    );
-
-  const discoveries =
-    useProgressStore(
-      (state) =>
-        state.discoveries
-    );
-
-  const readAnimals =
-    useProgressStore(
-      (state) =>
-        state.readAnimals
-    );
-
-  const firstSteps =
-    useProgressStore(
-      (state) =>
-        state.firstSteps
-    );
-
-  const daily =
-    useProgressStore(
-      (state) =>
-        state.daily
-    );
-
-  const flagMissionUpdate =
-    useProgressStore(
-      (state) =>
-        state.flagMissionUpdate
-    );
-
-
-  const [
-    queue,
-    setQueue,
-  ] =
-    useState([]);
-
-
-  const [
-    visible,
-    setVisible,
-  ] =
-    useState(null);
-
-
-  const [
-    leaving,
-    setLeaving,
-  ] =
-    useState(false);
-
-
-  /*
-    Guarda o último estado
-    das missões sem causar render.
-  */
-
-  const previousRef =
-    useRef(null);
-
-
+  const [leaving, setLeaving,] = useState(false);
+  
   /*
     =========================================================
     OBSERVA PROGRESSO DAS MISSÕES
@@ -103,321 +30,159 @@ export default function MissionNotifications() {
   */
 
   useEffect(() => {
+  const unsubscribe = useProgressStore.subscribe(
+    (state, previous) => {
+      const before = getActiveMissions(previous);
+      const after = getActiveMissions(state);
 
-    /*
-      Montamos um snapshot apenas
-      com os dados necessários.
-    */
+      const notifications = [];
+      const progressNotifications = [];
+      const unlocked = [];
 
-    const state = {
-      currentMissionId,
-      completedMissions,
-      foundAnimals,
-      discoveries,
-      readAnimals,
-      firstSteps,
-      daily,
-    };
+      function getKey(mission, snapshot) {
+        return mission.daily
+          ? `${mission.id}-${snapshot.daily.date}`
+          : mission.id;
+      }
 
+      after.forEach((mission) => {
+        const key = getKey(mission, state);
 
-    const currentMission =
-      MAIN_MISSIONS.find(
-        (mission) =>
-          mission.id ===
-          currentMissionId
-      );
+        const oldMission = before.find(
+          (item) =>
+            getKey(item, previous) === key
+        );
 
+        const title = mission.stage
+          ? `${mission.title} (${mission.stage}/${mission.totalStages})`
+          : mission.title;
 
-    const dailyMission =
-      DAILY_MISSIONS.find(
-        (mission) =>
-          mission.id ===
-          daily.missionId
-      );
+        // MISSÃO RECÉM-LIBERADA
 
+        if (!oldMission) {
+          unlocked.push({
+            mission,
+            title,
+          });
 
-    const currentValue =
-      currentMission
-        ? currentMission
-            .getValue(state)
-        : 0;
-
-
-    const dailyValue =
-      dailyMission
-        ? dailyMission
-            .getValue(state)
-        : 0;
-
-
-    const snapshot = {
-      currentMissionId,
-
-      completedMissions: [
-        ...completedMissions,
-      ],
-
-      currentValue,
-
-      dailyValue,
-
-      dailyCompleted:
-        daily.completed,
-    };
-
-
-    /*
-      Primeira vez que o componente
-      monta: só registra o estado.
-      Não cria popup.
-    */
-
-    if (!previousRef.current) {
-
-      previousRef.current =
-        snapshot;
-
-      return;
-    }
-
-
-    const previous =
-      previousRef.current;
-
-
-    const notifications = [];
-
-
-    /*
-      =====================================================
-      MISSÃO PRINCIPAL CONCLUÍDA
-      =====================================================
-    */
-
-    const newlyCompleted =
-      completedMissions.filter(
-        (missionId) =>
-          !previous
-            .completedMissions
-            .includes(
-              missionId
-            )
-      );
-
-
-    newlyCompleted.forEach(
-      (missionId) => {
-
-        const mission =
-          MAIN_MISSIONS.find(
-            (item) =>
-              item.id ===
-              missionId
-          );
-
-
-        if (!mission) {
           return;
         }
 
+        // OBJETIVOS COMPLETOS
+
+        const wasReady =
+          isMissionReady(oldMission, previous);
+
+        const ready =
+          isMissionReady(mission, state);
+
+        if (!wasReady && ready) {
+          notifications.push({
+            id: `ready-${key}-${Date.now()}`,
+
+            type: 'complete',
+
+            eyebrow: 'Missão concluída',
+
+            title,
+
+            text: 'Colete suas recompensas!',
+          });
+
+          return;
+        }
+
+        // PROGRESSO
+
+        // Evita notificações constantes
+        // durante atualizações do GPS.
+
+        if (
+          ready ||
+          mission.line === 'trail-explorer' ||
+          mission.id === 'daily-walk'
+        ) {
+          return;
+        }
+
+        const oldValue =
+          Math.floor(oldMission.getValue(previous));
+
+        const newValue =
+          Math.floor(mission.getValue(state));
+
+        if (newValue > oldValue) {
+          progressNotifications.push({
+            id: `progress-${key}-${Date.now()}`,
+
+            type: 'progress',
+
+            eyebrow: 'Progresso da missão',
+
+            title,
+
+            text: `${newValue}/${mission.goal}`,
+          });
+        }
+      });
+
+      // NOVA ETAPA OU NOVAS MISSÕES
+
+      if (unlocked.length === 1) {
+        const item = unlocked[0];
 
         notifications.push({
-          id:
-            `complete-${mission.id}-${Date.now()}`,
+          id: `new-${item.mission.id}-${Date.now()}`,
 
-          type:
-            'complete',
+          type: 'new',
 
-          eyebrow:
-            'Missão concluída',
+          eyebrow: 'Nova missão disponível',
 
-          title:
-            mission.title,
+          title: item.title,
 
-          text:
-            `+${mission.reward.xp} XP · 🍃 +${mission.reward.leaves}`,
+          text: item.mission.description,
         });
       }
-    );
 
+      if (unlocked.length > 1) {
+        notifications.push({
+          id: `new-missions-${Date.now()}`,
 
-    /*
-      =====================================================
-      NOVA MISSÃO
-      =====================================================
-    */
+          type: 'new',
 
-    if (
-      currentMissionId !==
-        previous.currentMissionId &&
+          eyebrow: 'Novas missões',
 
-      currentMission
-    ) {
+          title: 'Novos desafios disponíveis!',
 
-      notifications.push({
-        id:
-          `new-${currentMission.id}-${Date.now()}`,
+          text:
+            `${unlocked.length} missões foram liberadas.`,
+        });
+      }
 
-        type:
-          'new',
+      // Prioriza conclusões e desbloqueios.
+      // Mostra somente um aviso de progresso
+      // quando nenhuma missão foi concluída.
 
-        eyebrow:
-          'Nova missão disponível',
+      if (
+        notifications.length === 0 &&
+        progressNotifications.length > 0
+      ) {
+        notifications.push(
+          progressNotifications[0]
+        );
+      }
 
-        title:
-          currentMission.title,
-
-        text:
-          currentMission.description,
-      });
+      if (notifications.length > 0) {
+        setQueue((current) => [
+          ...current,
+          ...notifications,
+        ]);
+      }
     }
+  );
 
-
-    /*
-      =====================================================
-      PROGRESSO DA MISSÃO
-      =====================================================
-    */
-
-    if (
-      newlyCompleted.length === 0 &&
-
-      currentMissionId ===
-        previous.currentMissionId &&
-
-      currentMission &&
-
-      currentValue >
-        previous.currentValue
-    ) {
-
-      notifications.push({
-        id:
-          `progress-${currentMission.id}-${Date.now()}`,
-
-        type:
-          'progress',
-
-        eyebrow:
-          'Progresso da missão',
-
-        title:
-          currentMission.title,
-
-        text:
-          `${currentValue}/${currentMission.goal}`,
-      });
-    }
-
-
-    /*
-      =====================================================
-      MISSÃO DIÁRIA CONCLUÍDA
-      =====================================================
-    */
-
-    if (
-      !previous.dailyCompleted &&
-      daily.completed &&
-      dailyMission
-    ) {
-
-      notifications.push({
-        id:
-          `daily-complete-${Date.now()}`,
-
-        type:
-          'complete',
-
-        eyebrow:
-          'Missão diária concluída',
-
-        title:
-          dailyMission.title,
-
-        text:
-          `+${dailyMission.reward.xp} XP · 🍃 +${dailyMission.reward.leaves}`,
-      });
-    }
-
-
-    /*
-      =====================================================
-      PROGRESSO DIÁRIO
-      =====================================================
-
-      A missão de caminhada não gera
-      popup a cada atualização de GPS.
-    */
-
-    if (
-      dailyMission &&
-
-      dailyMission.id !==
-        'daily-walk' &&
-
-      !daily.completed &&
-
-      dailyValue >
-        previous.dailyValue
-    ) {
-
-      notifications.push({
-        id:
-          `daily-progress-${Date.now()}`,
-
-        type:
-          'progress',
-
-        eyebrow:
-          'Progresso diário',
-
-        title:
-          dailyMission.title,
-
-        text:
-          `${dailyValue}/${dailyMission.goal}`,
-      });
-    }
-
-
-    /*
-      Atualiza referência ANTES
-      de disparar outros estados.
-      Isso evita loops.
-    */
-
-    previousRef.current =
-      snapshot;
-
-
-    if (
-      notifications.length === 0
-    ) {
-      return;
-    }
-
-
-    setQueue(
-      (current) => [
-        ...current,
-        ...notifications,
-      ]
-    );
-
-
-    flagMissionUpdate();
-
-  }, [
-    currentMissionId,
-    completedMissions,
-    foundAnimals,
-    discoveries,
-    readAnimals,
-    firstSteps,
-    daily,
-    flagMissionUpdate,
-  ]);
+  return unsubscribe;
+}, []);
 
 
   /*

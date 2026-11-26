@@ -1935,89 +1935,82 @@
 }
 
 
-
-
-
 .field-guide-detail-close {
+  position: absolute;
+  z-index: 6;
 
-  position:
+  top: 8px;
+  right: 8px;
 
-    absolute;
+  width: 44px;
+  height: 44px;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
 
-  z-index:
+  color: #FFFFFF;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1;
 
-    4;
+  box-shadow: none;
+  cursor: pointer;
+}
 
+/* GESTO DE FECHAMENTO DA FICHA */
 
+.field-guide-detail {
+  translate: 0 var(--sheet-drag, 0px);
 
-  top:
+  transition: translate 0.25s ease-out;
 
-    14px;
+  overscroll-behavior-y: contain;
+  scrollbar-width: none;
+}
 
+.field-guide-detail::-webkit-scrollbar {
+  display: none;
+}
 
+.field-guide-detail.is-dragging {
+  transition: none;
+}
 
-  right:
+.field-guide-drag-area {
+  position: absolute;
 
-    14px;
+  top: 0;
+  left: 50%;
 
+  transform: translateX(-50%);
 
+  width: 50%;
+  height: 32px;
 
-  width:
+  z-index: 5;
 
-    38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
+  touch-action: none;
+  cursor: grab;
+}
 
+.field-guide-drag-area span {
+  width: 36px;
+  height: 4px;
 
-  height:
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.65);
 
-    38px;
-
-
-
-  border:
-
-    none;
-
-
-
-  border-radius:
-
-    50%;
-
-
-
-  background:
-
-    var(
-
-      --guide-orange
-
-    );
-
-
-
-  color:
-
-    var(
-
-      --guide-black
-
-    );
-
-
-
-  font-size:
-
-    24px;
-
-
-
-  font-weight:
-
-    900;
-
+  pointer-events: none;
 }
 
 
@@ -2040,7 +2033,7 @@
 
   height:
 
-    285px;
+    320px;
 
 
 
@@ -2726,4 +2719,87 @@
 
     0.7;
 
+}
+
+/* BOTÃO DE REALIDADE AUMENTADA */
+
+.field-guide-ar-button {
+  position: absolute;
+
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+
+  min-height: 44px;
+
+  padding: 12px 16px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #345432;
+  color: #FFFFFF;
+
+  font-family: var(--font-title, 'Fredoka', sans-serif);
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+.field-guide-ar-button:active {
+  transform: scale(0.98);
+}
+
+/* FOTOGRAFIA REAL DA ESPÉCIE */
+
+.field-guide-photo {
+  width: 100%;
+  margin: 0 0 12px;
+}
+
+.field-guide-photo img {
+  display: block;
+
+  width: 100%;
+  aspect-ratio: 16 / 9;
+
+  object-fit: cover;
+  object-position: center;
+
+  border-radius: 12px;
+
+  background: #C9B59C;
+}
+
+.field-guide-photo figcaption {
+  margin-top: 4px;
+
+  color: #5B3A1C;
+
+  font-family: var(--font-body, 'Montserrat', sans-serif);
+  font-size: 10px;
+  line-height: 1.4;
+
+  opacity: 0.8;
+}
+
+.field-guide-ar-button {
+  z-index: 3;
+}
+
+.field-guide-detail-model-wrap {
+  height: 320px;
+}
+
+.field-guide-detail-model {
+  height: calc(100% - 64px);
+}
+
+/* Esconde o botão nativo do model-viewer */
+
+.field-guide-detail-model::part(default-ar-button) {
+  display: none;
 }

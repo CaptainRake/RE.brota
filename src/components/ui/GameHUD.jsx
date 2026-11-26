@@ -1,15 +1,21 @@
 import { useNavigate } from 'react-router-dom';
-
 import { backpacks } from '../../data/backpacks';
-
 import { useOnboardingStore } from '../../stores/onboardingStore';
-
 import { useProgressStore } from '../../stores/progressStore';
-
+import { useCharacterStore } from '../../stores/characterStore';
+import {  getCharacter, getCharacterPortrait,} from '../../data/characters';
 
 export default function GameHUD() {
   const navigate =
     useNavigate();
+
+  const equippedId = useCharacterStore(
+    (state) => state.equippedId
+  );
+
+  const equippedCharacter = getCharacter(equippedId);
+
+  const portraitUrl = getCharacterPortrait(equippedCharacter);
 
   const playerName =
     useOnboardingStore(
@@ -19,7 +25,7 @@ export default function GameHUD() {
 
   const username =
     playerName ||
-    'Explorador';
+    'Pesquisador';
 
 
   const currentXP =
@@ -114,9 +120,10 @@ export default function GameHUD() {
         <div className="hud-profile-top">
 
           <img
-            src={`${import.meta.env.BASE_URL}ui/hud/Profile+Level.svg`}
+            src={portraitUrl}
             className="hud-profile-avatar"
-            alt=""
+            alt={equippedCharacter.name}
+            draggable={false}
           />
 
 

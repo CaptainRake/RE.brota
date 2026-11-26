@@ -19,6 +19,7 @@ import ExplorerSetup from './pages/ExplorerSetup';
 import Privacy from './pages/Privacy';
 import PrivacyConsent from './components/ui/PrivacyConsent';
 import Settings from './pages/Settings';
+import Badges from './pages/Badges';
 
 export default function App() {
   return (
@@ -43,6 +44,7 @@ export default function App() {
       <Route path="/explorer-setup" element={<ExplorerSetup />} />
       <Route path="/privacidade" element={<Privacy />} />
       <Route path="/settings" element={<Settings />} />
+      <Route path="/badges" element={<Badges />} />
 
     </Routes>
 

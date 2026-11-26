@@ -1,19 +1,7 @@
-import {
-  useState,
-} from 'react';
-
-import {
-  useNavigate,
-} from 'react-router-dom';
-
-import {
-  encounters,
-} from '../data/encounters';
-
-import {
-  useProgressStore,
-} from '../stores/progressStore';
-
+import { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { encounters } from '../data/encounters';
+import { useProgressStore } from '../stores/progressStore';
 
 export default function Guide() {
   const navigate =
@@ -32,7 +20,12 @@ export default function Guide() {
     setSelectedAnimal,
   ] =
     useState(null);
+  
+  const dragStartRef = useRef(null);
 
+  const [sheetDrag, setSheetDrag] = useState(0);
+
+  const [sheetDragging, setSheetDragging] = useState(false);
 
   const discoveries =
     useProgressStore(
@@ -92,6 +85,49 @@ export default function Guide() {
     setSelectedAnimal(
       animal
     );
+  }
+
+  function handleSheetPointerDown(event) {
+    if (!event.isPrimary || event.button !== 0) return;
+
+    dragStartRef.current = event.clientY;
+
+    event.currentTarget.setPointerCapture(
+      event.pointerId
+    );
+
+    setSheetDragging(true);
+  }
+
+  function handleSheetPointerMove(event) {
+    if (dragStartRef.current === null) return;
+
+    const distance = event.clientY - dragStartRef.current;
+
+    setSheetDrag(Math.max(0, distance));
+  }
+
+  function handleSheetPointerUp(event) {
+    if (dragStartRef.current === null) return;
+
+    const distance = event.clientY - dragStartRef.current;
+
+    dragStartRef.current = null;
+
+    setSheetDragging(false);
+
+    if (distance > 100) {
+      setSelectedAnimal(null);
+    }
+
+    setSheetDrag(0);
+  }
+
+  function handleSheetPointerCancel() {
+    dragStartRef.current = null;
+
+    setSheetDragging(false);
+    setSheetDrag(0);
   }
 
 
@@ -571,15 +607,29 @@ export default function Guide() {
         >
 
           <article
-            className="field-guide-detail"
+            className={`field-guide-detail ${
+              sheetDragging ? 'is-dragging' : ''
+            }`}
 
-            onClick={(
-              event
-            ) =>
-              event
-                .stopPropagation()
-            }
+            style={{
+              '--sheet-drag': `${sheetDrag}px`,
+            }}
+
+            onClick={(event) => event.stopPropagation()}
           >
+
+          <div
+            className="field-guide-drag-area"
+
+            onPointerDown={handleSheetPointerDown}
+            onPointerMove={handleSheetPointerMove}
+            onPointerUp={handleSheetPointerUp}
+            onPointerCancel={handleSheetPointerCancel}
+            onLostPointerCapture={handleSheetPointerCancel}
+          >
+            <span />
+          </div>
+        
 
             <button
               type="button"
@@ -618,18 +668,57 @@ export default function Guide() {
 
 
               <model-viewer
-                src={
-                  `${import.meta.env.BASE_URL}models/${selectedAnimal.model}`
-                }
+                id="guide-ar-viewer"
+
+                src={`${import.meta.env.BASE_URL}models/${selectedAnimal.model}`}
+
+                alt={selectedAnimal.name}
 
                 camera-controls
-
                 auto-rotate
+
+                ar
+                ar-modes="webxr scene-viewer quick-look"
+                ar-scale="fixed"
+                ar-placement="floor"
 
                 interaction-prompt="none"
 
                 class="field-guide-detail-model"
-              />
+              >
+                <span slot="ar-button" hidden />
+              </model-viewer>
+
+              <button
+                type="button"
+                className="field-guide-ar-button"
+
+                onClick={async () => {
+                  const viewer = document.getElementById(
+                    'guide-ar-viewer'
+                  );
+
+                  if (!viewer?.canActivateAR) {
+                    alert(
+                      'Utilize um celular compatível para observar esta espécie em RA.'
+                    );
+
+                    return;
+                  }
+
+                  try {
+                    await viewer.activateAR();
+                  } catch (error) {
+                    console.error(error);
+
+                    alert(
+                      'Não foi possível iniciar a realidade aumentada.'
+                    );
+                  }
+                }}
+              >
+                Observar em RA
+              </button>
 
             </div>
 
@@ -675,6 +764,25 @@ export default function Guide() {
                 Sobre
               </h3>
 
+                {selectedAnimal.photo && (
+                  <figure className="field-guide-photo">
+
+                    <img
+                      src={`${import.meta.env.BASE_URL}images/fauna/${selectedAnimal.photo}`}
+                      alt={`Fotografia de ${selectedAnimal.name}`}
+                      loading="lazy"
+                    />
+
+                    {selectedAnimal.photoCredit && (
+                      <figcaption>
+                        {selectedAnimal.photoCredit}
+                        {selectedAnimal.photoLicense &&
+                          ` · ${selectedAnimal.photoLicense}`}
+                      </figcaption>
+                    )}
+
+                  </figure>
+                )}
 
               <p>
                 {

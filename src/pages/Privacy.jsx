@@ -13,7 +13,7 @@ const documents = {
       },
       {
         title: 'Progresso e preferências',
-        text: 'O nome ou apelido de explorador, o personagem equipado, as descobertas, os pontos, as folhas e demais informações de progresso podem ser armazenados localmente no navegador. Não é necessário informar e-mail ou senha para jogar.',
+        text: 'O nome ou apelido de jogador, o personagem equipado, as descobertas, os pontos, as folhas e demais informações de progresso podem ser armazenados localmente no navegador. Não é necessário informar e-mail ou senha para jogar.',
       },
       {
         title: 'Geolocalização',

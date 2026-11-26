@@ -1,27 +1,22 @@
-import {
-  useNavigate,
-} from 'react-router-dom';
-
-import {
-  useProgressStore,
-} from '../stores/progressStore';
-
-import {
-  useOnboardingStore,
-} from '../stores/onboardingStore';
-
-import {
-  backpacks,
-} from '../data/backpacks';
-
-import {
-  encounters,
-} from '../data/encounters';
-
+import { useNavigate,} from 'react-router-dom';
+import { useProgressStore,} from '../stores/progressStore';
+import { useOnboardingStore,} from '../stores/onboardingStore';
+import { backpacks,} from '../data/backpacks';
+import { encounters,} from '../data/encounters';
+import { useCharacterStore } from '../stores/characterStore';
+import { getCharacter, getCharacterPortrait,} from '../data/characters';
 
 export default function Profile() {
   const navigate =
     useNavigate();
+
+  const equippedId = useCharacterStore(
+    (state) => state.equippedId
+  );
+
+  const equippedCharacter = getCharacter(equippedId);
+
+  const portraitUrl = getCharacterPortrait(equippedCharacter);
 
 
   /* =============================
@@ -155,7 +150,7 @@ export default function Profile() {
 
   const displayName =
     playerName ||
-    'Explorador visitante';
+    'Pesquisador visitante';
 
 
   const displayCode =
@@ -238,7 +233,7 @@ export default function Profile() {
 
 
           <span className="researcher-card-status">
-            EXPLORADOR
+            pesquisador
           </span>
 
         </div>
@@ -249,13 +244,11 @@ export default function Profile() {
           <div className="researcher-avatar">
 
             <img
-              src={
-                `${import.meta.env.BASE_URL}ui/hud/Profile+Level.svg`
-              }
-
-              alt=""
+              src={portraitUrl}
+              className="researcher-portrait"
+              alt={equippedCharacter.name}
+              draggable={false}
             />
-
 
             <span>
               {level}
@@ -920,19 +913,20 @@ function ResearcherQR({
 }
 
 
-function getBadgeName(
-  badge
-) {
-  switch (
-    badge
-  ) {
+function getBadgeName(badge) {
+  const names = {
+    'first-steps': 'Primeiros passos',
 
-    case 'first-steps':
-      return 'Primeiros passos';
+    'eyes-open': 'Olhos atentos',
 
+    'field-researcher': 'Pesquisador de campo',
 
-    default:
-      return 'Distintivo';
+    'trail-guardian': 'Guardião da trilha',
 
-  }
+    'trail-explorer': 'Desbravador',
+
+    'collector': 'Colecionador',
+  };
+
+  return names[badge] ?? 'Distintivo';
 }

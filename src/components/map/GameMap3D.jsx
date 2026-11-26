@@ -2075,7 +2075,8 @@ export default function GameMap3D() {
 
 
                     markAnimalFound(
-                      animal.id
+                      animal.id,
+                      encounter.createdAt
                     );
 
 

@@ -1,95 +1,84 @@
-import {
-  useEffect,
-  useState,
-} from 'react';
-
-import {
-  useNavigate,
-} from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import {
   useProgressStore,
-  MAIN_MISSIONS,
-  SIDE_MISSIONS,
-  DAILY_MISSIONS,
+  getActiveMissions,
+  getCompletedMissions,
+  isMissionReady,
   FUTURE_MISSIONS,
 } from '../stores/progressStore';
 
-
 export default function Challenges() {
-  const navigate =
-    useNavigate();
+  const navigate = useNavigate();
 
-
-  const [
-    showCompleted,
-    setShowCompleted,
-  ] =
+  const [showCompleted, setShowCompleted] =
     useState(false);
 
-    
-  const progressState =
-    useProgressStore();
-    
-  const markMissionsSeen =
-    useProgressStore(
-      (state) =>
-        state.markMissionsSeen
-    );
+  const [showFuture, setShowFuture] =
+    useState(false);
 
+  const state = useProgressStore();
+
+  const markMissionsSeen = useProgressStore(
+    (state) => state.markMissionsSeen
+  );
+
+  const refreshDaily = useProgressStore(
+    (state) => state.refreshDaily
+  );
 
   useEffect(() => {
+    refreshDaily();
     markMissionsSeen();
-  }, [
-    markMissionsSeen,
-  ]);
+  }, [refreshDaily, markMissionsSeen]);
 
-  const {
-    currentMissionId,
-    completedMissions,
-    completedSideMissions = [],
-    daily,
-  } =
-    progressState;
+  const active = getActiveMissions(state);
 
+  const completed = getCompletedMissions(state);
 
-  const currentMission =
-    MAIN_MISSIONS.find(
-      (mission) =>
-        mission.id ===
-        currentMissionId
+  const daily = active.filter(
+    (mission) => mission.daily
+  );
+
+  const main = active.filter(
+    (mission) =>
+      !mission.daily &&
+      (
+        mission.id === 'first-steps' ||
+        mission.line
+      )
+  );
+
+  const special = active.filter(
+    (mission) =>
+      !mission.daily &&
+      mission.id !== 'first-steps' &&
+      !mission.line
+  );
+
+  function renderMission(mission, completed = false) {
+    return (
+      <MissionCard
+        key={
+          completed
+            ? mission.id
+            : mission.line ?? mission.id
+        }
+
+        mission={mission}
+        state={state}
+        completed={completed}
+
+        onClaim={() =>
+          state.claimMission(mission.id)
+        }
+      />
     );
-
-
-  const currentMissionIndex =
-    MAIN_MISSIONS.findIndex(
-      (mission) =>
-        mission.id ===
-        currentMissionId
-    );
-
-
-  const dailyMission =
-    DAILY_MISSIONS.find(
-      (mission) =>
-        mission.id ===
-        daily.missionId
-    );
-
-
-  const completedMissionObjects =
-    MAIN_MISSIONS.filter(
-      (mission) =>
-        completedMissions.includes(
-          mission.id
-        )
-    );
-
+  }
 
   return (
     <main className="missions-page">
-
-      {/* HEADER */}
 
       <header className="missions-header">
 
@@ -105,287 +94,82 @@ export default function Challenges() {
           />
         </button>
 
-
         <div>
-
-          <h1>
-            Desafios
-          </h1>
+          <h1>Desafios</h1>
 
           <p>
             Complete missões durante suas explorações.
           </p>
-
         </div>
 
       </header>
 
+      {/* DIÁRIAS */}
 
-      {/* DIÁRIA */}
-
-      {dailyMission && (
+      {daily.length > 0 && (
         <section className="mission-section">
 
-          <h2>
-            Missão diária
-          </h2>
+          <h2>Missão diária</h2>
 
-
-          <MissionCard
-            mission={
-              dailyMission
-            }
-
-            value={
-              dailyMission
-                .getValue(
-                  progressState
-                )
-            }
-
-            completed={
-              daily.completed
-            }
-
-            daily
-          />
-
-        </section>
-      )}
-
-
-      {/* MISSÃO PRINCIPAL */}
-
-      {currentMission && (
-        <section className="mission-section">
-
-          <h2>
-            Missão atual
-          </h2>
-
-
-          <MissionCard
-            mission={
-              currentMission
-            }
-
-            value={
-              currentMission
-                .getValue(
-                  progressState
-                )
-            }
-
-            objectives={
-              currentMission
-                .objectives?.(
-                  progressState
-                )
-            }
-          />
-
-        </section>
-      )}
-
-      {/* MISSÕES DE CAMPO */}
-
-      {SIDE_MISSIONS.length > 0 && (
-        <section className="mission-section">
-
-          <h2>
-            Missões de campo
-          </h2>
-
-
-          {SIDE_MISSIONS.map(
-            (mission) => {
-
-              const completed =
-                completedSideMissions.includes(
-                  mission.id
-                );
-
-
-              return (
-                <MissionCard
-                  key={
-                    mission.id
-                  }
-
-                  mission={
-                    mission
-                  }
-
-                  value={
-                    mission.getValue(
-                      progressState
-                    )
-                  }
-
-                  objectives={
-                    mission.objectives?.(
-                      progressState
-                    )
-                  }
-
-                  completed={
-                    completed
-                  }
-                />
-              );
-            }
+          {daily.map((mission) =>
+            renderMission(mission)
           )}
 
         </section>
       )}
 
+      {/* PRINCIPAIS */}
 
-      {/* PRÓXIMAS */}
+      {main.length > 0 && (
+        <section className="mission-section">
 
-      {currentMission &&
-        currentMissionIndex >= 0 &&
-        currentMissionIndex <
-          MAIN_MISSIONS.length -
-            1 && (
+          <h2>Missões de campo</h2>
 
-          <section className="mission-section">
+          {main.map((mission) =>
+            renderMission(mission)
+          )}
 
-            <h2>
-              Próximas missões
-            </h2>
+        </section>
+      )}
 
+      {/* ESPECIAIS */}
 
-            {MAIN_MISSIONS
-              .slice(
-                currentMissionIndex +
-                  1
-              )
+      {special.length > 0 && (
+        <section className="mission-section">
 
-              .map(
-                (
-                  mission,
-                  index
-                ) => (
+          <h2>Missões especiais</h2>
 
-                  <article
-                    key={
-                      mission.id
-                    }
+          {special.map((mission) =>
+            renderMission(mission)
+          )}
 
-                    className="mission-card mission-card-locked"
-                  >
-
-                    <div className="mission-card-top">
-
-                      <span className="mission-tag">
-                        🔒 Bloqueada
-                      </span>
-
-                    </div>
-
-
-                    <h3>
-                      {mission.title}
-                    </h3>
-
-
-                    <p>
-                      {index === 0
-                        ? `Complete "${currentMission.title}" para liberar esta missão.`
-                        : 'Continue avançando nas missões para desbloquear.'}
-                    </p>
-
-                  </article>
-                )
-              )}
-
-          </section>
-        )}
-
-
-      {/* FUTURAS */}
-
-      <section className="mission-section">
-
-        <h2>
-          Novas expedições
-        </h2>
-
-
-        {FUTURE_MISSIONS.map(
-          (mission) => (
-
-            <article
-              key={
-                mission.id
-              }
-
-              className="mission-card mission-card-locked mission-card-future"
-            >
-
-              <div className="mission-card-top">
-
-                <span className="mission-tag">
-                  Em breve
-                </span>
-
-              </div>
-
-
-              <h3>
-                {mission.title}
-              </h3>
-
-
-              <p>
-                {mission.description}
-              </p>
-
-            </article>
-
-          )
-        )}
-
-      </section>
-
+        </section>
+      )}
 
       {/* CONCLUÍDAS */}
 
-      {completedMissionObjects.length >
-        0 && (
-
-        <section className="mission-section missions-completed-section">
+      {completed.length > 0 && (
+        <section className="mission-section">
 
           <button
             type="button"
-
             className="missions-completed-toggle"
 
+            aria-expanded={showCompleted}
+
             onClick={() =>
-              setShowCompleted(
-                (value) =>
-                  !value
-              )
+              setShowCompleted((value) => !value)
             }
           >
-
-            <span>
-              Missões concluídas
-            </span>
-
+            <span>Missões concluídas</span>
 
             <strong>
-              {
-                completedMissionObjects.length
-              }
+              {completed.length}
             </strong>
-
 
             <span
               className={`missions-toggle-arrow ${
-                showCompleted
-                  ? 'open'
-                  : ''
+                showCompleted ? 'open' : ''
               }`}
             >
               ▾
@@ -393,224 +177,300 @@ export default function Challenges() {
 
           </button>
 
-
           {showCompleted && (
-
             <div className="missions-completed-list">
 
-              {completedMissionObjects.map(
-                (mission) => (
-
-                  <MissionCard
-                    key={
-                      mission.id
-                    }
-
-                    mission={
-                      mission
-                    }
-
-                    value={
-                      mission.goal
-                    }
-
-                    completed
-                  />
-
-                )
+              {completed.map((mission) =>
+                renderMission(mission, true)
               )}
 
             </div>
-
           )}
 
         </section>
-
       )}
+
+      {/* FUTURAS */}
+
+      <section className="mission-section">
+
+        <button
+          type="button"
+          className="missions-completed-toggle"
+
+          aria-expanded={showFuture}
+
+          onClick={() =>
+            setShowFuture((value) => !value)
+          }
+        >
+          <span>Novas expedições</span>
+
+          <span
+            className={`missions-toggle-arrow ${
+              showFuture ? 'open' : ''
+            }`}
+          >
+            ▾
+          </span>
+
+        </button>
+
+        {showFuture && (
+          <div className="missions-completed-list">
+
+            {FUTURE_MISSIONS.map((mission) => (
+              <article
+                key={mission.id}
+                className="mission-card mission-card-future"
+              >
+                <span className="mission-tag">
+                  Em breve
+                </span>
+
+                <h3>{mission.title}</h3>
+
+                <p>{mission.description}</p>
+              </article>
+            ))}
+
+          </div>
+        )}
+
+      </section>
 
     </main>
   );
 }
 
-
 /* =========================================================
-   CARD
+   CARD DA MISSÃO
    ========================================================= */
 
 function MissionCard({
   mission,
-  value,
-  objectives = null,
-  completed = false,
-  daily = false,
+  state,
+  completed,
+  onClaim,
 }) {
+  const [expanded, setExpanded] = useState(
+    !completed
+  );
 
-  const progress =
-    Math.min(
-      (
-        value /
-        mission.goal
-      ) *
-        100,
+  const ready =
+    !completed && isMissionReady(mission, state);
 
-      100
-    );
+  const objectives = mission.objectives(state);
 
+  const completedCount = completed
+    ? objectives.length
+    : objectives.filter(
+        (item) => item.completed
+      ).length;
+
+  const title = mission.stage
+    ? `${mission.title} (${mission.stage}/${mission.totalStages})`
+    : mission.title;
 
   return (
     <article
-      className={`mission-card ${
-        daily
-          ? 'mission-card-daily'
-          : ''
-      } ${
-        completed
-          ? 'mission-card-completed'
-          : ''
-      }`}
+      className={`mission-card mission-card-v2
+        ${mission.daily ? 'mission-card-daily' : ''}
+        ${completed ? 'mission-card-completed' : ''}
+        ${ready ? 'mission-card-ready' : ''}
+      `}
     >
 
-      <div className="mission-card-top">
+      {/* CATEGORIA */}
 
-        <span className="mission-tag">
+      <div className="mission-category-band">
+        {mission.category}
+      </div>
 
-          {daily
-            ? 'Diária'
-            : mission.category ??
-              'Exploração'}
+      {/* TÍTULO E EXPANSÃO */}
 
-        </span>
+      <button
+        type="button"
+        className="mission-expand-button"
 
+        aria-expanded={expanded}
 
-        {completed && (
-          <span className="mission-completed-label">
-            Concluída ✓
+        onClick={() =>
+          setExpanded((value) => !value)
+        }
+      >
+
+        <h3>{title}</h3>
+
+        {ready && (
+          <span className="mission-ready-indicator">
+            ✓
           </span>
         )}
 
-      </div>
+        <span
+          className={`mission-expand-arrow ${
+            expanded ? 'expanded' : ''
+          }`}
+        >
+          ▾
+        </span>
 
+      </button>
 
-      <h3>
-        {mission.title}
-      </h3>
+      {expanded && (
+        <div className="mission-card-body">
 
+          <p className="mission-description">
+            {mission.description}
+          </p>
 
-      <p>
-        {mission.description}
-      </p>
+          {/* OBJETIVOS INDIVIDUAIS */}
 
+          <div className="mission-task-list">
 
-      {objectives &&
-        objectives.length > 0 && (
+            {objectives.map((item, index) => {
+              const done =
+                completed || item.completed;
 
-        <div className="mission-objectives">
+              const value = done
+                ? item.goal
+                : Math.min(
+                    Math.floor(item.value),
+                    item.goal
+                  );
 
-          {objectives.map(
-            (
-              objective,
-              index
-            ) => (
+              const progress =
+                Math.min(
+                  (value / item.goal) * 100,
+                  100
+                );
 
-              <div
-                key={
-                  index
-                }
+              return (
+                <div
+                  key={index}
+                  className={`mission-task ${
+                    done ? 'done' : ''
+                  }`}
+                >
 
-                className={`mission-objective ${
-                  objective.completed
-                    ? 'completed'
-                    : ''
-                }`}
-              >
+                  <div className="mission-task-top">
 
-                <span>
-                  {objective.completed
-                    ? '✓'
-                    : '○'}
-                </span>
+                    <span>
+                      {item.text}
+                    </span>
 
+                    {done && (
+                      <strong className="mission-task-check">
+                        ✓
+                      </strong>
+                    )}
 
-                <p>
-                  {
-                    objective.text
-                  }
-                </p>
+                  </div>
 
+                  {!done && (
+                    <>
+                      <div className="mission-task-count">
+                        {value}/{item.goal}
+                      </div>
+
+                      <div className="mission-progress">
+
+                        <div
+                          className="mission-progress-fill"
+                          style={{
+                            width: `${progress}%`,
+                          }}
+                        />
+
+                      </div>
+                    </>
+                  )}
+
+                </div>
+              );
+            })}
+
+          </div>
+
+          {/* TAREFAS COMPLETADAS */}
+
+          <div
+            className={`mission-task-summary ${
+              ready || completed ? 'all-done' : ''
+            }`}
+          >
+            <span>
+              {completedCount}/{objectives.length}
+              {' '}tarefas completadas
+            </span>
+
+            {(ready || completed) && (
+              <strong>✓</strong>
+            )}
+          </div>
+
+          {/* RECOMPENSAS */}
+
+          <div className="mission-reward-panel">
+
+            <div className="mission-reward-heading">
+
+              {completed
+                ? 'RECOMPENSAS COLETADAS'
+                : 'RECOMPENSAS'}
+
+            </div>
+
+            <div className="mission-reward-display">
+
+              <div className="mission-xp-reward">
+                <strong>
+                  {mission.reward.xp}
+                </strong>
+
+                <span>XP</span>
               </div>
 
-            )
+              <div className="mission-leaves-reward">
+                <span>🍃</span>
+
+                <strong>
+                  ×{mission.reward.leaves}
+                </strong>
+              </div>
+
+            </div>
+
+          </div>
+
+          {/* COLETAR */}
+
+          {ready && (
+            <button
+              type="button"
+              className="mission-claim-button"
+
+              onClick={onClaim}
+            >
+              Coletar recompensas
+            </button>
           )}
 
         </div>
-
       )}
 
+      {!expanded && (
+        <div className="mission-collapsed-summary">
 
-      {!completed && (
-
-        <>
-          <div className="mission-progress-info">
-
-            <span>
-              Progresso
-            </span>
-
-
-            <strong>
-              {Math.min(
-                Math.round(
-                  value
-                ),
-                mission.goal
-              )}
-              /
-              {mission.goal}
-            </strong>
-
-          </div>
-
-
-          <div className="mission-progress">
-
-            <div
-              className="mission-progress-fill"
-
-              style={{
-                width:
-                  `${progress}%`,
-              }}
-            />
-
-          </div>
-        </>
-
-      )}
-
-
-      <div className="mission-rewards">
-
-        <span>
           {completed
-            ? 'Recompensa recebida'
-            : 'Recompensa'}
-        </span>
-
-
-        <div className="mission-reward-items">
-
-          <strong>
-            +{mission.reward.xp} XP
-          </strong>
-
-
-          <strong>
-            🍃 +{mission.reward.leaves}
-          </strong>
+            ? 'Recompensas coletadas ✓'
+            : ready
+              ? 'Recompensas disponíveis!'
+              : `${completedCount}/${objectives.length} tarefas completadas`}
 
         </div>
-
-      </div>
+      )}
 
     </article>
   );

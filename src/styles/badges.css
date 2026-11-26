@@ -1,0 +1,441 @@
+/* =========================================================
+   DISTINTIVOS
+   ========================================================= */
+
+.badges-page {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100dvh;
+
+  box-sizing: border-box;
+
+  padding:
+    calc(24px + env(safe-area-inset-top))
+    20px
+    calc(40px + env(safe-area-inset-bottom));
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  background: #8B5F3C;
+  color: #FFFFFF;
+
+  scrollbar-width: none;
+}
+
+.badges-page::-webkit-scrollbar {
+  display: none;
+}
+
+/* CABEÇALHO */
+
+.badges-header {
+  display: flex;
+  align-items: center;
+
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.badges-header h1 {
+  margin: 0;
+
+  font-family: var(--font-title, 'Fredoka', sans-serif);
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.badges-back {
+  flex: 0 0 56px;
+
+  width: 56px;
+  height: 56px;
+
+  padding: 0;
+  border: none;
+  background: transparent;
+
+  cursor: pointer;
+}
+
+.badges-back img {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+}
+
+/* PROGRESSO */
+
+.badges-progress-card {
+  padding: 20px;
+  margin-bottom: 24px;
+
+  background: #DDCDBA;
+  color: #5B3A1C;
+
+  border: 2px solid #5B3A1C;
+  border-radius: 16px;
+
+  box-shadow: 4px 4px 0 #5B3A1C;
+}
+
+.badges-progress-heading {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+}
+
+.badges-progress-heading span {
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.badges-progress-heading h2 {
+  margin: 4px 0 0;
+
+  font-family: var(--font-title, 'Fredoka', sans-serif);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.badges-progress-heading > strong {
+  font-family: var(--font-title, 'Fredoka', sans-serif);
+  font-size: 26px;
+
+  color: #446342;
+}
+
+.badges-progress-bar {
+  height: 12px;
+
+  margin-top: 16px;
+  overflow: hidden;
+
+  border-radius: 999px;
+  background: #C9B59C;
+}
+
+.badges-progress-fill {
+  height: 100%;
+
+  border-radius: inherit;
+  background: #446342;
+
+  transition: width 0.3s ease;
+}
+
+.badges-progress-card p {
+  margin: 12px 0 0;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* GRADE */
+
+.badges-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 12px;
+}
+
+/* CARDS */
+
+.badge-card {
+  position: relative;
+
+  min-width: 0;
+  min-height: 180px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 24px 12px 16px;
+
+  border: 2px solid #5B3A1C;
+  border-radius: 16px;
+
+  background: #DDCDBA;
+  color: #5B3A1C;
+
+  box-shadow: 4px 4px 0 #5B3A1C;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.badge-card:active {
+  transform: translateY(3px);
+
+  box-shadow: 1px 1px 0 #5B3A1C;
+}
+
+.badge-card-number {
+  position: absolute;
+
+  top: 10px;
+  left: 12px;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  opacity: 0.6;
+}
+
+.badge-card-image {
+  display: block;
+
+  width: 104px;
+  height: 104px;
+  max-width: 100%;
+
+  object-fit: contain;
+
+  pointer-events: none;
+}
+
+.badge-card-name {
+  font-family: var(--font-title, 'Fredoka', sans-serif);
+  font-size: 17px;
+  font-weight: 600;
+
+  text-align: center;
+}
+
+.badge-card-status {
+  font-size: 10px;
+  font-weight: 600;
+
+  text-align: center;
+}
+
+/* BLOQUEADOS */
+
+.badge-card.locked {
+  background: #C9B59C;
+}
+
+.badge-card.locked .badge-card-image {
+  filter: grayscale(1);
+  opacity: 0.4;
+}
+
+/* CONQUISTADOS */
+
+.badge-card.unlocked .badge-card-status {
+  color: #345432;
+}
+
+/* =========================================================
+   FICHA DO DISTINTIVO
+   ========================================================= */
+
+.badge-detail-overlay {
+  position: fixed;
+  inset: 0;
+
+  z-index: 5000;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  background: rgba(25, 13, 0, 0.65);
+
+  backdrop-filter: blur(4px);
+}
+
+.badge-detail {
+  position: relative;
+
+  width: 100%;
+  max-width: 430px;
+  max-height: 92dvh;
+
+  overflow-y: auto;
+
+  border-radius: 24px 24px 0 0;
+
+  background: #DDCDBA;
+  color: #5B3A1C;
+
+  scrollbar-width: none;
+
+  animation: badge-detail-enter 0.25s ease-out;
+}
+
+@keyframes badge-detail-enter {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* FECHAR */
+
+.badge-detail-close {
+  position: absolute;
+
+  top: 8px;
+  right: 8px;
+
+  z-index: 5;
+
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: none;
+  border-radius: 0;
+
+  background: transparent;
+  color: #FFFFFF;
+
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1;
+
+  box-shadow: none;
+  cursor: pointer;
+}
+
+/* IMAGEM */
+
+.badge-detail-visual {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 40px 24px;
+
+  background: #788E64;
+}
+
+.badge-detail-visual img {
+  width: 180px;
+  height: 180px;
+
+  max-width: 100%;
+
+  object-fit: contain;
+}
+
+.badge-detail-visual img.locked {
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+
+/* CONTEÚDO */
+
+.badge-detail-content {
+  padding:
+    24px
+    20px
+    calc(32px + env(safe-area-inset-bottom));
+
+  text-align: center;
+}
+
+.badge-detail-status {
+  display: inline-block;
+
+  padding: 6px 12px;
+
+  border-radius: 999px;
+
+  background: #8B5F3C;
+  color: #FFFFFF;
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.badge-detail-status.unlocked {
+  background: #446342;
+}
+
+.badge-detail-content h2 {
+  margin: 12px 0 8px;
+
+  font-family: var(--font-title, 'Fredoka', sans-serif);
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.badge-detail-content p {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.badge-detail-requirement {
+  margin-top: 24px;
+  padding: 16px;
+
+  border-radius: 12px;
+
+  background: #C9B59C;
+}
+
+.badge-detail-requirement strong {
+  font-size: 14px;
+}
+
+.badge-detail-requirement p {
+  margin: 8px 0 0;
+}
+
+/* BOTÃO */
+
+.badge-action-button {
+  width: 100%;
+  min-height: 48px;
+
+  margin-top: 16px;
+  padding: 12px;
+
+  border: 2px solid #345432;
+  border-radius: 12px;
+
+  background: #446342;
+  color: #FFFFFF;
+
+  font-family: var(--font-title, 'Fredoka', sans-serif);
+  font-size: 17px;
+
+  box-shadow: 0 4px 0 #345432;
+
+  cursor: pointer;
+}
+
+.badge-action-button:active {
+  transform: translateY(3px);
+
+  box-shadow: 0 1px 0 #345432;
+}
